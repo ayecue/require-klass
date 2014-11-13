@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="require.js"></script>
+		<script type="text/javascript">
+			// contents of main.js:
+			require.config({
+				baseUrl: "../src"
+			});
+			// contents of other.js:
+
+			// This code might be called before the require.config() in main.js
+			// has executed. When that happens, require.js will attempt to
+			// load 'scripts/foo.js' instead of 'scripts/libs/foo-1.1.3.js'
+			require(['XClass'], function(XClass) {
+				console.log(XClass);
+			});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
