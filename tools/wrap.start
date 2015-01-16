@@ -1,0 +1,4 @@
+(function (root, factory) {
+    root.xclass = factory();
+}(this, function (xclass) {
+

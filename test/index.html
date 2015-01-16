@@ -2,19 +2,44 @@
 <html>
 	<head>
 		<script type="text/javascript" src="require.js"></script>
+		<script type="text/javascript" src="../amd/require-xclass.js"></script>
 		<script type="text/javascript">
-			// contents of main.js:
-			require.config({
-				baseUrl: "../src"
+			var test = xclass.define('test',{
+				statics : {
+					testing : function(){
+						console.log('wad2');
+					}
+				},
+				foo : function(dd){
+					this.logMessage('test3',dd);
+				},
+				moo : function(){
+					return 1;
+				}
 			});
-			// contents of other.js:
 
-			// This code might be called before the require.config() in main.js
-			// has executed. When that happens, require.js will attempt to
-			// load 'scripts/foo.js' instead of 'scripts/libs/foo-1.1.3.js'
-			require(['XClass'], function(XClass) {
-				console.log(XClass);
+			var smaller = xclass.define('smaller',{
+				extends : 'test',
+				test : 'woot',
+				lulu : {
+					1 : 2
+				},
+				mkmk : [5,9,8],
+				statics : {
+					testing : function(){
+						console.log('wad');
+						this.callParent();
+					}
+				},
+				foo : function(){
+					this.callParent(['wat']);
+					this.logMessage('test',true);
+				}
 			});
+
+
+				var foo = new smaller(),
+					lul = new test();
 		</script>
 	</head>
 	<body>
