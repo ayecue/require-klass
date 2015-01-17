@@ -42,11 +42,7 @@ var opts = {
 		 *	Extend default keyword
 		 */
 		'set' : function(keyword,value){
-			var self = this;
-
-			if (!(keyword in self)) {
-				self[keyword] = value;
-			}
+			self[keyword] = value;
 		},
 		/**
 		 *	Extend statics keyword
