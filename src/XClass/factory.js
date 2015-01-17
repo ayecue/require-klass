@@ -71,5 +71,5 @@ module.exports = function(){
 		parent.applyTo(handle);
 	}
 
-	return handle;
+	return !!handle.singleton ? new handle() : handle;
 };

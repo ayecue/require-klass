@@ -1,10 +1,16 @@
 var extend = require('fn/extend'),
+	forEach = require('fn/forEach'),
 	getClass = require('fn/getClass'),
 	config = require('cls/config');
 
 module.exports = extend(config.xclass,{
+	config : function(){
+		forEach(arguments,function(_,properties){
+			extend(config,properties);
+		});
+	},
 	id : require('fn/getId'),
-	forEach : require('fn/forEach'),
+	forEach : forEach,
 	toArray : require('fn/toArray'),
 	extend : extend,
 	printf : require('fn/printf'),

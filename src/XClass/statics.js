@@ -10,7 +10,7 @@ var forEach = require('fn/forEach'),
  *	Default class statics
  */
 module.exports = function(handle){
-	return {
+	var statics = {
 		/**
 		 *	Default variables
 		 */
@@ -78,4 +78,12 @@ module.exports = function(handle){
 			}
 		}
 	};
+
+	var getStatics = config.getStatics;
+
+	if (getStatics) {
+		extend(statics,getStatics.call(statics,handle));
+	}
+
+	return statics;
 };

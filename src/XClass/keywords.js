@@ -1,12 +1,14 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach'),
+var extend = require('fn/extend'),
+	forEach = require('fn/forEach'),
 	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
 	load = require('fn/load'),
 	config = require('cls/config'),
-	Property = require('prop/property');
+	Property = require('prop/property'),
+	Properties = require('cls/properties');
 
 /**
  *	Shortcuts
@@ -70,21 +72,15 @@ var opts = {
 		'mixins' : function(keyword,value){
 			var self = this;
 
-			if (value instanceof Array) {
-				forEach(value,function(){
-					opts.mixins.apply(self,arguments);
-				});
-			} else {
-				forEach(value,function(_,c){
-					var type = typeof c;
+			forEach(value,function(_,c){
+				var type = typeof c;
 
-					if (type == 'object') {
-						self._mixins[_] = c;
-					} else if (type == 'string') {
-						self._mixins[_] = getClass(xclass,c);
-					}
-				});
-			}
+				if (type == 'object') {
+					self._mixins[_] = c;
+				} else if (type == 'string') {
+					self._mixins[_] = getClass(xclass,c);
+				}
+			});
 		},
 		/**
 		 *	Extend traits keyword
@@ -97,11 +93,14 @@ var opts = {
 					opts.traits.apply(self,arguments);
 				});
 			} else {
-				forEach(value,function(_,c){
-					if (!(_ in self.prototype)) {
-						Property(self,self.prototype,_,c);
-					}
-				});
+				var type = typeof value;
+
+				if (type == 'object') {
+					Keywords(self,value);
+					Properties(self,value);
+				} else if (type == 'string') {
+					getClass(xclass,value).applyTo(self);
+				}
 			}
 		},
 		/**
@@ -136,7 +135,13 @@ var opts = {
 /**
  *	Extend keywords to class
  */
-module.exports = function(handle,properties) {
+function Keywords(handle,properties) {
+	var getKeywordsOpts = config.getKeywordsOpts;
+
+	if (getKeywordsOpts) {
+		extend(internals,getKeywordsOpts.call(internals,opts));
+	}
+
 	forEach(internals,function(keyword,internal){
 		if (keyword in properties) {
 			internal.call(handle,keyword,properties[keyword]);
@@ -146,3 +151,5 @@ module.exports = function(handle,properties) {
 		}
 	});
 };
+
+module.exports = Keywords;

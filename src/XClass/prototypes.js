@@ -7,13 +7,14 @@ var forEach = require('fn/forEach'),
 	getClass = require('fn/getClass'),
 	callParent = require('fn/callParent'),
 	generateSetterGetter = require('fn/generateSetterGetter'),
+	config = require('cls/config'),
 	Logger = require('cls/logger');
 
 /**
  *	Default class prototypes
  */
 module.exports = function(handle){
-	return {
+	var prototypes = {
 		/**
 		 *	Default variables
 		 */
@@ -37,7 +38,7 @@ module.exports = function(handle){
 				}
 			});
 
-			if (self.getClass().autoSetterGetter) {
+			if (self.getClass()._autoSetterGetter) {
 				generateSetterGetter.call(self.getClass().prototype,self);
 			}
 		},
@@ -80,7 +81,7 @@ module.exports = function(handle){
 
 			extend.apply(null,[self].concat(args));
 
-			if (self.getClass().autoSetterGetter) {
+			if (self.getClass()._autoSetterGetter) {
 				generateSetterGetter.call(self.getClass().prototype,self);
 			}
 		},
@@ -102,4 +103,12 @@ module.exports = function(handle){
 			} 
 		}
 	};
+
+	var getPrototypes = config.getPrototypes;
+
+	if (getPrototypes) {
+		extend(prototypes,getPrototypes.call(prototypes,handle));
+	}
+
+	return prototypes;
 };
