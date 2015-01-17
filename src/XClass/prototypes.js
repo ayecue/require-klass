@@ -6,10 +6,10 @@ var forEach = require('fn/forEach'),
 	generateSetterGetter = require('fn/generateSetterGetter'),
 	Logger = require('cls/logger');
 
-module.exports = function(){
+module.exports = function(handle){
 	return {
 		//vars
-		_class : null,
+		_class : handle,
 		_defaultValues : {},
 		isPrototypeObject : true,
 		//methods

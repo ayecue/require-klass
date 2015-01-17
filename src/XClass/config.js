@@ -1,5 +1,5 @@
 module.exports = {
-	classPool : {},
+	xclass : {},
 	defaultDeepLoggingLevel : false,
 	defaultDebugging : true,
 	defaultAutoSetterGetter : true,
@@ -13,5 +13,9 @@ module.exports = {
 	logMessageSearchPattern : /pLogMessage/i,
 	logMessageTracePattern : /at\s(\S+)\s[^\(]*\(([^\)]+)\)/i,
 	logMessageTraceTpl : '${%name%} (%link%)',
-	logMessageStyleTpl : 'color:%hexcode%;'
+	logMessageStyleTpl : 'color:%hexcode%;',
+	errorDoubleParent : '%name% got parent already.',
+	errorAlreadyDefined : '%id% is already defined.',
+	errorEval : 'Compile exception in code: %code% (%message%)',
+	errorNoTemplateFound : 'No such template (%name%) found.'
 };

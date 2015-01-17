@@ -1,6 +1,7 @@
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray'),
 	extend = require('fn/extend'),
+	getClass = require('fn/getClass'),
 	config = require('cls/config'),
 	templates = require('cls/templates'),
 	Keywords = require('cls/keywords'),
@@ -8,33 +9,48 @@ var forEach = require('fn/forEach'),
 	Statics = require('cls/statics'),
 	Prototypes = require('cls/prototypes');
 
+var xclass = config.xclass,
+	errorAlreadyDefined = config.errorAlreadyDefined,
+	errorEval = config.errorEval;
+
 function compile(id){
-	var namespaces = id.split('.'),
-		max = namespaces.length - 1,
-		path =  forEach(namespaces,function(index,value){
-			if (index == max) {
-				this.result.namespace = value;
-			} else {
-				this.result.root = this.result.root[value] || (this.result.root[value] = {});
-			}
-		},{
-			root : config.classPool
+	if (getClass(xclass,id) != null) {
+		throw Error(printf(errorAlreadyDefined,'id',id));
+	}
+
+	var path = getNamespace(id),
+		constructor = templates('constructor',{
+			id : path.namespace
 		});
 
 	try {
-		return path.root[path.namespace] = new Function(templates('constructor',{
-			id : path.namespace
-		}))();
+		return path.property[path.namespace] = new Function(constructor)();
 	} catch(e) {
-		throw Error('compile exception code:' + e.message);
+		throw Error(printf(errorEval,{
+			code : constructor,
+			message : e.message
+		}));
 	}
 }
 
-function initialize(handle){
-	extend(handle,Statics());
-	extend(handle.prototype,Prototypes(),{
-		_class : handle
+function getNamespace(id){
+	var namespaces = id.split('.'),
+		max = namespaces.length - 1;
+
+	return forEach(namespaces,function(index,value){
+		if (index == max) {
+			this.result.namespace = value;
+		} else {
+			this.result.property = this.result.property[value] || (this.result.property[value] = {});
+		}
+	},{
+		property : xclass
 	});
+}
+
+function initialize(handle){
+	extend(handle,Statics(handle));
+	extend(handle.prototype,Prototypes(handle));
 }
 
 function apply(handle,properties){

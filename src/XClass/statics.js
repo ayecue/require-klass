@@ -3,7 +3,7 @@ var forEach = require('fn/forEach'),
 	config = require('cls/config'),
 	Logger = require('cls/logger');
 
-module.exports = function(){
+module.exports = function(handle){
 	return {
 		//vars
 		_deepLoggingLevel : config.defaultDeepLoggingLevel,

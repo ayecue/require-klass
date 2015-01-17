@@ -1,4 +1,6 @@
 var printf = require('fn/printf'),
+    config = require('cls/config'),
+    errorNoTemplateFound = config.errorNoTemplateFound,
 	templates = {
     	constructor : require('tpl/constructorTpl'),
     	setter : require('tpl/setterTpl'),
@@ -9,7 +11,7 @@ var printf = require('fn/printf'),
     		return printf(templates[name],arg1,arg2);
     	}
 
-    	throw Error('No such template (' + name + ') found.');
+    	throw Error(printf(errorNoTemplateFound,'name',name));
     };
 
 module.exports = render;

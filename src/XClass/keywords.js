@@ -3,19 +3,22 @@ var forEach = require('fn/forEach'),
 	config = require('cls/config'),
 	Property = require('prop/property');
 
+var errorDoubleParent = config.errorDoubleParent,
+	xclass = config.xclass;
+
 var opts = {
 		'parent' : function(keyword,value){
 			var self = this,
 				type = typeof value;
 
 			if (self._parent != null) {
-				throw new Error('Double parent');
+				throw new Error(printf(errorDoubleParent,'name',self.getName()));
 			}
 
 			if (type == 'object') {
 				self._parent = value;
 			} else if (type == 'string') {
-				self._parent = getClass(config.classPool,value);
+				self._parent = getClass(xclass,value);
 			}
 		},
 		'set' : function(keyword,value){
@@ -50,7 +53,7 @@ var opts = {
 					if (type == 'object') {
 						self._mixins[_] = c;
 					} else if (type == 'string') {
-						self._mixins[_] = getClass(config.classPool,c);
+						self._mixins[_] = getClass(xclass,c);
 					}
 				});
 			}
