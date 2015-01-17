@@ -50,22 +50,6 @@ function compile(id){
 }
 
 /**
- *	Add default static/prototype method to base class
- */
-function initialize(handle){
-	extend(handle,Statics(handle));
-	extend(handle.prototype,Prototypes(handle));
-}
-
-/**
- *	Extend keywords and properties to base class
- */
-function apply(handle,properties){
-	Keywords(handle,properties);
-	Properties(handle,properties);
-}
-
-/**
  *	Create pseudo class
  */
 module.exports = function(){
@@ -73,10 +57,12 @@ module.exports = function(){
 		id = typeof args[0] == 'string' ? args.shift() : null,
 		handle = compile(id);
 	
-	initialize(handle);
+	extend(handle,Statics(handle));
+	extend(handle.prototype,Prototypes(handle));
 
 	forEach(args,function(_,properties){
-		apply(handle,properties);
+		Keywords(handle,properties);
+		Properties(handle,properties);
 	});
 
 	var parent = handle.getParent();

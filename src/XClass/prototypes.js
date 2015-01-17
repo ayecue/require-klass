@@ -37,7 +37,9 @@ module.exports = function(handle){
 				}
 			});
 
-			generateSetterGetter.call(self.getClass().prototype,self);
+			if (self.getClass().autoSetterGetter) {
+				generateSetterGetter.call(self.getClass().prototype,self);
+			}
 		},
 		getDefaultValues : function(){
 			return this._defaultValues;
@@ -77,7 +79,10 @@ module.exports = function(handle){
 				args = toArray(arguments);
 
 			extend.apply(null,[self].concat(args));
-			generateSetterGetter.call(self.getClass().prototype,self);
+
+			if (self.getClass().autoSetterGetter) {
+				generateSetterGetter.call(self.getClass().prototype,self);
+			}
 		},
 		logMessage : function(args,error){
 			Logger(this,args,error);

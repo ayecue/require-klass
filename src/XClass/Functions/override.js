@@ -11,7 +11,7 @@ var forEach = require('fn/forEach'),
 /**
  *	Shortcuts
  */
-var errorAlreadyDefined = config.errorAlreadyDefined;
+var errorNoClassFound = config.errorNoClassFound;
 
 /**
  *	Override class
@@ -23,10 +23,11 @@ module.exports = function(){
 
 	if (handle === null) {
 		forEach(args,function(_,properties){
+			Keywords(handle,properties);
 			Properties(handle,properties);
 		});
 	} else {
-		throw Error(printf(errorAlreadyDefined,'id',id));
+		throw Error(printf(errorNoClassFound,'id',id));
 	}
 
 	return handle;

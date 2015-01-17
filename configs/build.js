@@ -17,6 +17,7 @@ module.exports = {
 	logMessageTraceTpl : '${%name%} (%link%)',
 	logMessageStyleTpl : 'color:%hexcode%;',
 	errorDoubleParent : '%name% got parent already.',
+	errorNoClassFound : '%name% do not exist.',
 	errorAlreadyDefined : '%id% is already defined.',
 	errorEval : 'Compile exception in code: %code% (%message%)',
 	errorNoTemplateFound : 'No such template (%name%) found.',

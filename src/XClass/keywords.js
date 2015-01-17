@@ -40,7 +40,11 @@ var opts = {
 		 *	Extend default keyword
 		 */
 		'set' : function(keyword,value){
-			this[keyword] = value;
+			var self = this;
+
+			if (!(keyword in self)) {
+				self[keyword] = value;
+			}
 		},
 		/**
 		 *	Extend statics keyword
@@ -113,7 +117,7 @@ var opts = {
 			} else {
 				load(value);
 			}
-		},
+		}
 	},
 	/**
 	 *	Possible internal keywords on class with link to keyword operation 
