@@ -1,5 +1,5 @@
-var forEach = require('./forEach'),
-	toArray = require('./toArray');
+var forEach = require('fn/forEach'),
+	toArray = require('fn/toArray');
 
 module.exports = function() {
 	var args = toArray(arguments),

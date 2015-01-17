@@ -1,7 +1,7 @@
-var forEach = require('../../forEach'),
-	printf = require('../../printf'),
-	config = require('../../config'),
-	templates = require('../../templates');
+var forEach = require('fn/forEach'),
+	printf = require('fn/printf'),
+	config = require('cls/config'),
+	templates = require('cls/templates');
 
 module.exports = function(properties){
 	var self = this;

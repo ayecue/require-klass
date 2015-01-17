@@ -1,8 +1,8 @@
-var printf = require('./printf'),
+var printf = require('fn/printf'),
 	templates = {
-    	constructor : require('./Templates/constructorTpl'),
-    	setter : require('./Templates/setterTpl'),
-    	getter : require('./Templates/getterTpl')
+    	constructor : require('tpl/constructorTpl'),
+    	setter : require('tpl/setterTpl'),
+    	getter : require('tpl/getterTpl')
     },
     render = function(name,arg1,arg2){
     	if (name in templates) {

@@ -26,7 +26,6 @@ module.exports = function (grunt) {
 
     requirejs: {
       dev: {
-        // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
         options: {
           baseUrl: "amd",
           name: "../tools/vendor/almond",
@@ -34,6 +33,12 @@ module.exports = function (grunt) {
           wrap: {
             startFile: "tools/wrap.start",
             endFile: "tools/wrap.end"
+          },
+          paths: {
+            'cls': './XClass',
+            'fn': './XClass/Functions',
+            'prop': './XClass/Properties',
+            'tpl': './XClass/Templates'
           },
           include: ["xclass"],
           optimize: "none"
@@ -54,7 +59,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks("grunt-amd-wrap");
+  grunt.loadNpmTasks('grunt-amd-wrap');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 

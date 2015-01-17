@@ -1,132 +1,30 @@
-var forEach = require('./forEach'),
-	extend = require('./extend'),
-	Event = require('./event');
+var forEach = require('fn/forEach'),
+	extend = require('fn/extend'),
+	Event = require('cls/event');
 
 function Listener(){
-	var self = this;
-
-	extend(this,{
-		pool : {}
-	});
-
-	self.register.apply(self,arguments);
+	this.pool = {};
 }
 
 extend(Listener.prototype,{
-	self : Listener,
-	register : function(){
+	on : function(name,fn){
 		var self = this;
-
-		forEach(arguments,function(_,name){
-			if (!self.get(name)) {
-				self.pool[name] = new Event();
-			}
-		});
-
-		return self;
-	},
-	get : function(name){
-		var self = this;
-
-		if (name in self.pool) {
-			return self.pool[name];
-		}
-	},
-	filter : function(){
-		var self = this;
-		
-		return _forEach(arguments,function(){
-			var _event = self.get(name);
-
-			if (_event) {
-				this.result.pool[name] = _event;
-			}
-		},new self.self());
-	},
-	remove : function(){
-		var self = this;
-
-		_forEach(arguments,function(_,name){
-			var _event = self.get(name);
-
-			if (_event) {
-				_event.destroy();
-
-				self.pool[name] = null;
-				delete self.pool[name];
-			}
-		});
-
-		return self;
-	},
-	on : function(name,obj){
-		var self = this,
-			_event = self.get(name);
-
-		if (_event) {
-			_event.add(obj);
-		}
-
-		return self;
-	},
-	once : function(name,fn){
-		return this.on(name,{
-			once : true,
-			callback : fn
-		});
+		self.pool[name] = self.pool[name] || [];
+		self.pool[name].push(fn);
 	},
 	fire : function(name,ctx,args){
-		var self = this,
-			_event = self.get(name);
-
-		if (_event) {
-			_event.fire(ctx,args);
+		var self = this;
+		if (name in self.pool){
+			forEach(self.pool[name],function(_,fn){
+				fn.apply(ctx,args);
+			});
 		}
-
-		return self;
 	},
 	off : function(name,fn){
-		var self = this,
-			_event = self.get(name);
-
-		if (_event) {
-			_event.remove(fn);
+		var self = this;
+		if (name in self.pool){
+			self.pool[name].splice(self.pool[name].indexOf(fn),1);
 		}
-
-		return self;
-	},
-	clear : function(){
-		var self = this;
-
-		forEach(arguments,function(_,name){
-			var _event = self.get(name);
-
-			if (_event) {
-				_event.clear();
-			}
-		});
-
-		return self;
-	},
-	clearAll : function(){
-		var self = this;
-
-		forEach(self.pool,function(_,pool){
-			pool.clear();
-		});
-
-		return self;
-	},
-	destroy : function(){
-		var self = this;
-
-		//clear vars
-		forEach(self.pool,function(_,pool){
-			pool.destroy();
-		});
-
-		self.pool = null;
-		delete self.pool;
 	}
 });
 

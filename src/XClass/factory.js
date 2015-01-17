@@ -1,43 +1,52 @@
-var forEach = require('./forEach'),
-	toArray = require('./toArray'),
-	extend = require('./extend'),
-	config = require('./config'),
-	templates = require('./templates'),
-	Base = require('./base');
+var forEach = require('fn/forEach'),
+	toArray = require('fn/toArray'),
+	extend = require('fn/extend'),
+	config = require('cls/config'),
+	templates = require('cls/templates'),
+	Keywords = require('cls/keywords'),
+	Properties = require('cls/properties'),
+	Statics = require('cls/statics'),
+	Prototypes = require('cls/prototypes');
 
-function Factory(){
-
+function compile(id){
+	try {
+		return new Function(templates('constructor',{
+			id : id
+		}))();
+		
+	} catch(e) {
+		throw Error('compile exception code:' + e.message);
+	}
 }
 
-extend(Factory,{
-	compile : function(id){
-		try {
-			return new Function(templates('constructor',{
-				id : id
-			}))();
-			
-		} catch(e) {
-			throw Error('compile exception code:' + e.message);
-		}
+function initialize(handle){
+	extend(handle,Statics());
+	extend(handle.prototype,Prototypes(),{
+		_class : handle
+	});
+}
+
+function apply(handle,properties){
+	Keywords(handle,properties);
+	Properties(handle,properties);
+}
+
+module.exports = function(){
+	var args = toArray(arguments),
+		id = typeof args[0] == 'string' ? args.shift() : null,
+		handle = compile(id);
+	
+	initialize(handle);
+
+	forEach(args,function(_,properties){
+		apply(handle,properties);
+	});
+
+	var parent = handle.getParent();
+
+	if (parent) {
+		parent.applyTo(handle);
 	}
-});
 
-extend(Factory.prototype,{
-	self : Factory,
-	create : function(){
-		var self = this,
-			args = toArray(arguments),
-			id = typeof args[0] == 'string' ? args.shift() : null,
-			handle = self.self.compile(id),
-			base = new Base(handle);
-
-		forEach(args,function(_,properties){
-			base.extend(properties);
-		});
-
-		return config.classPool[id] = base.toClass();
-	}
-
-});
-
-module.exports = new Factory();
+	return config.classPool[id] = handle;
+};
