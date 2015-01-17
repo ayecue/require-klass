@@ -9,11 +9,22 @@ var forEach = require('fn/forEach'),
 	Prototypes = require('cls/prototypes');
 
 function compile(id){
+	var namespaces = id.split('.'),
+		max = namespaces.length - 1,
+		path =  forEach(namespaces,function(index,value){
+			if (index == max) {
+				this.result.namespace = value;
+			} else {
+				this.result.root = this.result.root[value] || (this.result.root[value] = {});
+			}
+		},{
+			root : config.classPool
+		});
+
 	try {
-		return new Function(templates('constructor',{
-			id : id
+		return path.root[path.namespace] = new Function(templates('constructor',{
+			id : path.namespace
 		}))();
-		
 	} catch(e) {
 		throw Error('compile exception code:' + e.message);
 	}
@@ -48,5 +59,5 @@ module.exports = function(){
 		parent.applyTo(handle);
 	}
 
-	return config.classPool[id] = handle;
+	return handle;
 };

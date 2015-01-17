@@ -4,7 +4,7 @@
 		<script type="text/javascript" src="require.js"></script>
 		<script type="text/javascript" src="../amd/require-xclass.js"></script>
 		<script type="text/javascript">
-			var test = xclass.define('test',{
+			var test = xclass.define('w.test',{
 				statics : {
 					testing : function(){
 						console.log('wad2');
@@ -18,8 +18,8 @@
 				}
 			});
 
-			var smaller = xclass.define('smaller',{
-				extends : 'test',
+			var smaller = xclass.define('w.smaller',{
+				extends : 'w.test',
 				test : 'woot',
 				lulu : {
 					1 : 2

@@ -1,5 +1,5 @@
 module.exports = {
-	classPool : [],
+	classPool : {},
 	defaultDeepLoggingLevel : false,
 	defaultDebugging : true,
 	defaultAutoSetterGetter : true,
