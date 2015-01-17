@@ -1,5 +1,6 @@
 module.exports = [
-	'return function(){',
-	'	return this.%keyword%;',
+	'return function(v){',
+	'	this.%keyword%=v;',
+	'	return this;',
 	'};'
 ].join('');
