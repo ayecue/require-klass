@@ -1,4 +1,5 @@
 var forEach = require('fn/forEach'),
+	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
 	config = require('cls/config'),
 	Property = require('prop/property');

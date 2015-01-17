@@ -1,5 +1,6 @@
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray'),
+	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
 	config = require('cls/config'),
 	Properties = require('cls/properties');
