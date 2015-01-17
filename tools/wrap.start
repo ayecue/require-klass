@@ -1,4 +1,4 @@
-(function (root, factory) {
-    root.xclass = factory();
-}(this, function (xclass) {
+(function (global, factory) {
+    global.xclass = factory(global);
+}(this, function (global) {
 

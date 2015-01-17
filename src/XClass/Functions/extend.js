@@ -1,6 +1,12 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray');
 
+/**
+ *	Extend properties to object
+ */
 module.exports = function() {
 	var args = toArray(arguments),
 		last = args.length - 1,

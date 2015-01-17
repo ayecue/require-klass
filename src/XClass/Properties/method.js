@@ -1,6 +1,12 @@
+/**
+ *	Dependencies
+ */
 var extend = require('fn/extend'),
 	Listener = require('cls/listener');
 
+/**
+ *	Create method for class
+ */
 module.exports = function(base,keyword,fn){
 	var listener = new Listener(),
 		method = function(context,args){
@@ -16,10 +22,10 @@ module.exports = function(base,keyword,fn){
 			return result;
 		};
 
-	method._base = base;
-	method._name = keyword;
-	method._function = fn;
-	method._listener = listener;
-
-	return method;
+	return extend(method,{
+		_base : base,
+		_name : keyword,
+		_function : fn,
+		_listener : listener
+	});
 };

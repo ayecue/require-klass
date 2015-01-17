@@ -4,7 +4,10 @@
   "description": "require-xclass ==============",
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "source": "src/",
+    "config": "configs/",
+    "temp": "tmp/",
+    "build": "amd/"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +30,8 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-uglify": "~0.3.2",
     "grunt-shell": "~0.6.4",
-    "grunt-init": "~0.3.2"
+    "grunt-init": "~0.3.2",
+    "grunt-contrib-concat": "~0.5.0",
+    "grunt-contrib-copy": "~0.7.0"
   }
 }

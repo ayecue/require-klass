@@ -1,5 +1,11 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach');
 
+/**
+ *	Search for path
+ */
 module.exports = function(root,path,delimiter){
 	var splitted = path.split(delimiter || '.');
 	

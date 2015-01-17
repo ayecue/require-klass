@@ -1,3 +1,6 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray'),
 	printf = require('fn/printf'),
@@ -5,8 +8,14 @@ var forEach = require('fn/forEach'),
 	config = require('cls/config'),
 	Properties = require('cls/properties');
 
+/**
+ *	Shortcuts
+ */
 var errorAlreadyDefined = config.errorAlreadyDefined;
 
+/**
+ *	Override class
+ */
 module.exports = function(){
 	var args = toArray(arguments),
 		id = typeof args[0] == 'string' ? args.shift() : null,

@@ -1,8 +1,14 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	printf = require('fn/printf'),
 	config = require('cls/config'),
 	templates = require('cls/templates');
 
+/**
+ *	Create automatic setter/getter for class
+ */
 module.exports = function(properties){
 	var self = this;
 

@@ -1,7 +1,9 @@
 module.exports = {
 	xclass : {},
+	loadFileTpl : '%path%.js',
+	allowMonkeyPatchRequireJS : false,
 	defaultDeepLoggingLevel : false,
-	defaultDebugging : true,
+	defaultDebugging : false,
 	defaultAutoSetterGetter : true,
 	setterNameTpl : 'set%:olettersnumber,camelcase:keyword%',
 	getterNameTpl : 'get%:olettersnumber,camelcase:keyword%',
@@ -17,5 +19,7 @@ module.exports = {
 	errorDoubleParent : '%name% got parent already.',
 	errorAlreadyDefined : '%id% is already defined.',
 	errorEval : 'Compile exception in code: %code% (%message%)',
-	errorNoTemplateFound : 'No such template (%name%) found.'
+	errorNoTemplateFound : 'No such template (%name%) found.',
+	errorNoParent : 'No parent found',
+	errorNoParentMethod : 'Method %name% no found in parent'
 };

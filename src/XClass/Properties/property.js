@@ -1,9 +1,18 @@
+/**
+ *	Dependencies
+ */
 var extend = require('fn/extend'),
-	getTypeOf = require('fn/getTypeOf'),
+	typeOf = require('fn/typeOf'),
 	Method = require('prop/method'),
 	Logger = require('cls/logger');
 
+/**
+ *	Operations for extending properties
+ */
 var opts = {
+	/**
+	 *	Extend function
+	 */
 	'function' : function(source,target,keyword,value){
 		var method = Method(source,keyword,value);
 	
@@ -20,13 +29,17 @@ var opts = {
 			return method(this,arguments);
 		};
 	},
+	/**
+	 *	Extend default
+	 */
 	'default' : function(source,target,keyword,value){
 		(target.isPrototypeObject ? target.getDefaultValues() : target)[keyword] = value;
 	}
 };
 
+/**
+ *	Execute property operation
+ */
 module.exports = function(source,target,keyword,value) {
-	var type = getTypeOf(value);
-
-	(opts[type] || opts['default']).apply(null,arguments);
+	(opts[typeOf(value)] || opts['default']).apply(null,arguments);
 };

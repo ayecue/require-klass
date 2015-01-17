@@ -1,16 +1,26 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	callParent = require('fn/callParent'),
 	config = require('cls/config'),
 	Logger = require('cls/logger');
 
+/**
+ *	Default class statics
+ */
 module.exports = function(handle){
 	return {
-		//vars
+		/**
+		 *	Default variables
+		 */
 		_deepLoggingLevel : config.defaultDeepLoggingLevel,
 		_debug : config.defaultDebugging,
 		_autoSetterGetter : config.defaultAutoSetterGetter,
 		_mixins : {},
-		//methods
+		/**
+		 *	Default methods
+		 */
 		getClass : function(){
 			return this;
 		},

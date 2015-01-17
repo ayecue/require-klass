@@ -1,3 +1,6 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray'),
 	extend = require('fn/extend'),
@@ -6,13 +9,20 @@ var forEach = require('fn/forEach'),
 	generateSetterGetter = require('fn/generateSetterGetter'),
 	Logger = require('cls/logger');
 
+/**
+ *	Default class prototypes
+ */
 module.exports = function(handle){
 	return {
-		//vars
+		/**
+		 *	Default variables
+		 */
 		_class : handle,
 		_defaultValues : {},
 		isPrototypeObject : true,
-		//methods
+		/**
+		 *	Default methods
+		 */
 		_init : function(){
 			var self = this,
 				values = self.getDefaultValues();

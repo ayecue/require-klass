@@ -1,8 +1,14 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	extend = require('fn/extend'),
 	printf = require('fn/printf'),
 	config = require('cls/config');
 
+/**
+ *	Shortcuts
+ */
 var exceptionsColor = config.logMessageExceptionColor,
 	successColor = config.logMessageSuccessColor,
 	userColor = config.logMessageUserColor,
@@ -13,6 +19,9 @@ var exceptionsColor = config.logMessageExceptionColor,
 	traceTpl = config.logMessageTraceTpl,
 	styleTpl = config.logMessageStyleTpl;
 
+/**
+ *	Trace context location
+ */
 function analyze(context){
 	var info = {};
 
@@ -47,10 +56,16 @@ function analyze(context){
 	});
 }
 
+/**
+ *	Get console display style
+ */
 function getStyle(color){
 	return printf(styleTpl,'hexcode',color || successColor);
 }
 
+/**
+ *	Generating console message templates
+ */
 function toMessages(args){
 	return forEach(args,function(_,item){
 		var messages = this.result,
@@ -68,6 +83,9 @@ function toMessages(args){
 	},[]);
 }
 
+/**
+ *	Default print function to show context messages
+ */
 function print(context,args,error,color){
 	var color = error ? exceptionsColor : color,
 		style = getStyle(color),
@@ -91,6 +109,9 @@ function print(context,args,error,color){
 	}
 }
 
+/**
+ *	External print function
+ */
 module.exports = function(context,args,error){
 	var message = [].concat('[',args,']');
 

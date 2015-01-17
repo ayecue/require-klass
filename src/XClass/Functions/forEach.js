@@ -1,3 +1,6 @@
+/**
+ *	Loop through objects
+ */
 module.exports = function(obj,callback,pre){
 	if (obj == null) {
 		return pre;

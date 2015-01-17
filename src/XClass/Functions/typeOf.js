@@ -1,3 +1,6 @@
+/**
+ * 	Get type of object
+ */
 module.exports = function(x){
     var c = x.constructor;
     

@@ -1,8 +1,12 @@
+/**
+ *	Dependencies
+ */
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray'),
 	extend = require('fn/extend'),
 	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
+	namespace = require('fn/namespace'),
 	config = require('cls/config'),
 	templates = require('cls/templates'),
 	Keywords = require('cls/keywords'),
@@ -10,22 +14,33 @@ var forEach = require('fn/forEach'),
 	Statics = require('cls/statics'),
 	Prototypes = require('cls/prototypes');
 
+/**
+ *	Shortcuts
+ */
 var xclass = config.xclass,
 	errorAlreadyDefined = config.errorAlreadyDefined,
 	errorEval = config.errorEval;
 
+/**
+ *	Create base class
+ */
 function compile(id){
-	if (getClass(xclass,id) != null) {
+	if (getClass(xclass,id) !== null) {
 		throw Error(printf(errorAlreadyDefined,'id',id));
 	}
 
-	var path = getNamespace(id),
+	namespace(id);
+
+	var splitted = id.split('.'),
+		property = splitted.pop(),
+		path = splitted.join('.'),
+		root = getClass(xclass,path) || xclass,
 		constructor = templates('constructor',{
-			id : path.namespace
+			id : property
 		});
 
 	try {
-		return path.property[path.namespace] = new Function(constructor)();
+		return root[property] = new Function(constructor)();
 	} catch(e) {
 		throw Error(printf(errorEval,{
 			code : constructor,
@@ -34,31 +49,25 @@ function compile(id){
 	}
 }
 
-function getNamespace(id){
-	var namespaces = id.split('.'),
-		max = namespaces.length - 1;
-
-	return forEach(namespaces,function(index,value){
-		if (index == max) {
-			this.result.namespace = value;
-		} else {
-			this.result.property = this.result.property[value] || (this.result.property[value] = {});
-		}
-	},{
-		property : xclass
-	});
-}
-
+/**
+ *	Add default static/prototype method to base class
+ */
 function initialize(handle){
 	extend(handle,Statics(handle));
 	extend(handle.prototype,Prototypes(handle));
 }
 
+/**
+ *	Extend keywords and properties to base class
+ */
 function apply(handle,properties){
 	Keywords(handle,properties);
 	Properties(handle,properties);
 }
 
+/**
+ *	Create pseudo class
+ */
 module.exports = function(){
 	var args = toArray(arguments),
 		id = typeof args[0] == 'string' ? args.shift() : null,

@@ -3,11 +3,15 @@ var extend = require('fn/extend'),
 	config = require('cls/config');
 
 module.exports = extend(config.xclass,{
+	id : require('fn/getId'),
 	forEach : require('fn/forEach'),
 	toArray : require('fn/toArray'),
-	extend : require('fn/extend'),
+	extend : extend,
 	printf : require('fn/printf'),
-	override : require('cls/override'),
+	typeOf : require('fn/typeOf'),
+	override : require('fn/override'),
+	namespace : require('fn/namespace'),
+	require : require('fn/load'),
 	getClass : function(path){
 		return getClass(this,path);
 	},
