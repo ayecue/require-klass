@@ -111,7 +111,7 @@ var opts = {
 					opts.requires.apply(self,arguments);
 				});
 			} else {
-				console.log(load(value));
+				load(value);
 			}
 		},
 	},
