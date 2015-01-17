@@ -71,7 +71,8 @@ function toMessages(args){
 function print(context,args,error,color){
 	var color = error ? exceptionsColor : color,
 		style = getStyle(color),
-		contextName = context.getCalledMethodBase().getName() || unknownName,
+		base = context.getCalledMethodBase(),
+		contextName = base ? base.getName() : unknownName,
 		methodName = context.getCalledMethodName() || anonymousName,
 		messages = toMessages(args);
 

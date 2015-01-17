@@ -1,6 +1,7 @@
 var forEach = require('fn/forEach'),
 	toArray = require('fn/toArray'),
 	extend = require('fn/extend'),
+	getClass = require('fn/getClass'),
 	callParent = require('fn/callParent'),
 	generateSetterGetter = require('fn/generateSetterGetter'),
 	Logger = require('cls/logger');
@@ -73,6 +74,17 @@ module.exports = function(){
 		},
 		isDebug : function(){
 			return this.getClass().isDebug();
+		},
+		callMixin : function(name,prop,args) {
+			var mixins = this.getClass().getMixins();
+
+			if (name in mixins) {
+				var fn = getClass(mixins[name],prop);
+
+				if (fn) {
+					fn.apply(this,args);
+				}
+			} 
 		}
 	};
 };

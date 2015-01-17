@@ -14,6 +14,9 @@ module.exports = function(){
 		getClass : function(){
 			return this;
 		},
+		getMixins : function(){
+			return this._mixins;
+		},
 		getCalledMethod : function(){
 			return this._calledMethod;
 		},
@@ -48,7 +51,7 @@ module.exports = function(){
 			Logger(this,args,error);
 		},
 		applyTo : function(handle){
-			var parent = self;
+			var parent = this;
 
 			if (parent) {
 				forEach(parent,function(keyword,value){

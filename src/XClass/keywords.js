@@ -39,16 +39,20 @@ var opts = {
 		'mixins' : function(keyword,value){
 			var self = this;
 
-			if (type == 'object') {
-				if (value instanceof Array) {
-					forEach(value,function(){
-						opts.mixins.apply(self,arguments);
-					});
-				} else {
-					self._mixins[keyword] = value;
-				}
-			} else if (type == 'string') {
-				self._mixins[keyword] = getClass(config.classPool,value);
+			if (value instanceof Array) {
+				forEach(value,function(){
+					opts.mixins.apply(self,arguments);
+				});
+			} else {
+				forEach(value,function(_,c){
+					var type = typeof c;
+
+					if (type == 'object') {
+						self._mixins[_] = c;
+					} else if (type == 'string') {
+						self._mixins[_] = getClass(config.classPool,c);
+					}
+				});
 			}
 		},
 		'traits' : function(keyword,value){
@@ -60,8 +64,8 @@ var opts = {
 				});
 			} else {
 				forEach(value,function(_,c){
-					if (!(_ in self)) {
-						self.prototype[_] = c;
+					if (!(_ in self.prototype)) {
+						Property(self,self.prototype,_,c);
 					}
 				});
 			}
