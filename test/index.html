@@ -11,7 +11,7 @@
 					}
 				},
 				foo : function(dd){
-					this.logMessage('test3',dd);
+					this.logMessage(['test3',dd]);
 					return 2;
 				},
 				moo : function(){
@@ -39,6 +39,11 @@
 					}
 				},
 				traits : {
+					statics : {
+						myFunc : function(){
+							return 0;
+						}
+					},
 					pom : function(){
 						this.logMessage('pom');
 					}
@@ -58,6 +63,16 @@
 
 				var foo = new smaller(),
 					lul = new test();
+
+			xclass.override('w.smaller',{
+				lulu : {
+					5 : 6
+				},
+				foo : function(){
+					this.callParent(['foo']);
+					this.logMessage('wassup',true);
+				}
+			});
 		</script>
 	</head>
 	<body>
