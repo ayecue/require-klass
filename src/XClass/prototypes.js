@@ -38,7 +38,7 @@ module.exports = function(handle){
 				}
 			});
 
-			if (self.getClass()._autoSetterGetter) {
+			if (self.getClass().autoSetterGetter) {
 				generateSetterGetter.call(self.getClass().prototype,self);
 			}
 		},
@@ -81,7 +81,7 @@ module.exports = function(handle){
 
 			extend.apply(null,[self].concat(args));
 
-			if (self.getClass()._autoSetterGetter) {
+			if (self.getClass().autoSetterGetter) {
 				generateSetterGetter.call(self.getClass().prototype,self);
 			}
 		},

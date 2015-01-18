@@ -14,9 +14,9 @@ module.exports = function(handle){
 		/**
 		 *	Default variables
 		 */
-		_deepLoggingLevel : config.defaultDeepLoggingLevel,
-		_debug : config.defaultDebugging,
-		_autoSetterGetter : config.defaultAutoSetterGetter,
+		singleton : config.defaultSingleton,
+		debug : config.defaultDebugging,
+		autoSetterGetter : config.defaultAutoSetterGetter,
 		_mixins : {},
 		/**
 		 *	Default methods
@@ -52,7 +52,7 @@ module.exports = function(handle){
 			callParent.call(this,args);
 		},
 		isDebug : function(){
-			return this._debug;
+			return this.debug;
 		},
 		getName : function(){
 			return this.name;
