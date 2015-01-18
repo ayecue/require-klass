@@ -30,7 +30,7 @@ function compile(id){
 		throw Error(printf(errorAlreadyDefined,'id',id));
 	}
 
-	namespace(id);
+	namespace(xclass,id);
 
 	var splitted = id.split('.'),
 		property = splitted.pop(),

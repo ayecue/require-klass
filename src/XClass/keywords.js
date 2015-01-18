@@ -19,6 +19,23 @@ var errorDoubleParent = config.errorDoubleParent,
 	xclass = manager.xclass;
 
 /**
+ *	Load class for property
+ */
+function loadPropertiesFromClass(value,fn){
+	var result;
+
+	load(value,function(handle,delayed){
+		result = handle;
+
+		if (delayed && fn) {
+			fn(handle);
+		}
+	},synchronousLoading);
+
+	return result;
+}
+
+/**
  *	Keyword operations
  */
 var opts = {
@@ -36,7 +53,10 @@ var opts = {
 			if (type == 'object') {
 				self._parent = value;
 			} else if (type == 'string') {
-				self._parent = opts.requires.call(self,null,value);
+				self._parent = loadPropertiesFromClass(value,function(handle){
+					self._parent = handle;
+					handle.applyTo(self);
+				});
 			}
 		},
 		/**
@@ -73,7 +93,9 @@ var opts = {
 				if (type == 'object') {
 					self._mixins[_] = c;
 				} else if (type == 'string') {
-					self._mixins[_] = opts.requires.call(self,null,c);
+					self._mixins[_] = loadPropertiesFromClass(c,function(handle){
+						self._mixins[_] = handle;
+					});
 				}
 			});
 		},
@@ -94,7 +116,13 @@ var opts = {
 					Keywords(self,value);
 					Properties(self,value);
 				} else if (type == 'string') {
-					opts.requires.call(self,null,value).applyTo(self);
+					var trait = loadPropertiesFromClass(value,function(handle){
+						handle.applyTo(self);
+					});
+
+					if (trait !== null) {
+						trait.applyTo(self);
+					}
 				}
 			}
 		},
@@ -125,11 +153,11 @@ var opts = {
 		'singleton' : opts.set,
 		'debug' : opts.set,
 		'autoSetterGetter' : opts.set,
-		'extends' : opts.parent,
 		'statics' : opts.statics,
 		'mixins' : opts.mixins,
 		'traits' : opts.traits,
-		'requires' : opts.requires
+		'requires' : opts.requires,
+		'extends' : opts.parent
 	};
 
 /**

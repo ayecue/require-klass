@@ -33,7 +33,7 @@ module.exports = function(id,fn,synchronous){
     var handle = getClass(xclass,id);
 
     if (handle !== null) {
-        return fn(handle);
+        return fn(handle,false);
     }
     
     if (id in pending) {
@@ -54,7 +54,7 @@ module.exports = function(id,fn,synchronous){
                 pending[id] = node.onerror = node.onload = node.onreadystatechange = null;
                 delete pending[id];
                 !!node.parentNode && node.parentNode.removeChild( node );
-                listener.fire('ready',null,[!failure && getClass(xclass,id)]);
+                listener.fire('ready',null,[!failure && getClass(xclass,id),true]);
             }
         };
 
