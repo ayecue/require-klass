@@ -11,21 +11,11 @@ var extend = require('fn/extend'),
  */
 var loadFileTpl = config.loadFileTpl,
 	xclass = config.xclass,
-    allowMonkeyPatchRequireJS = config.allowMonkeyPatchRequireJS,
 	req = global.require;
 
 /**
  *	Monkey patch requirejs createNode
  */
-allowMonkeyPatchRequireJS && (function(){
-	var createNode = req.createNode;
-
-    req.createNode = function(config){
-        var node = createNode.apply(req,arguments);
-        node.async = config.async;
-        return node;
-    };
-})();
 
 /**
  *	Get path to file
@@ -39,33 +29,35 @@ function getAbsolutePath(id){
 /**
  *	Load class
  */
-module.exports = function(id){
-	var _class = getClass(xclass,id);
+module.exports = function(id,fn,synchronous){
+    var handle = getClass(xclass,id);
 
-	if (_class !== null) {
-		return _class;
-	}
+    if (handle !== null) {
+        return fn(handle);
+    }
 
 	var absolutePath = getAbsolutePath(id),
-		xhr;
+        node = req.load({
+        	contextName : '_'
+        },absolutePath,absolutePath),
+        onload = function( _,failure){
+            if (!node) return;
+                                        
+            var state = node.readyState;
+        
+            if (failure || !state || /loaded|complete/i.test( state ) ){                   
+                node.onerror = node.onload = node.onreadystatechange = null;
+                !!node.parentNode && node.parentNode.removeChild( node );
+                fn(!failure && getClass(xclass,id));
+            }
+        };
 
-	if (typeof XMLHttpRequest != 'undefined') {
-        xhr = new XMLHttpRequest();
-    } else {
-        xhr = new ActiveXObject('Microsoft.XMLHTTP');
-    }
-		
-	try {
-        xhr.open('GET', absolutePath, false);
-        xhr.send(null);
-    } catch (e) {
-        req.load({
-        	contextName : '_',
-        	config : {
-        		async : false
-        	}
-        },absolutePath,absolutePath);
-    }
-
-	return getClass(xclass,id);
+    extend(node,{
+        async : !synchronous,
+        onload : onload,
+        onreadystatechange : onload,
+        onerror : function(_){
+            onload(_,true);
+        }
+    });
 };

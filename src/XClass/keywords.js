@@ -14,6 +14,7 @@ var extend = require('fn/extend'),
  *	Shortcuts
  */
 var errorDoubleParent = config.errorDoubleParent,
+	synchronousLoading = config.synchronousLoading,
 	xclass = config.xclass;
 
 /**
@@ -34,8 +35,7 @@ var opts = {
 			if (type == 'object') {
 				self._parent = value;
 			} else if (type == 'string') {
-				opts.requires.call(self,null,value);
-				self._parent = getClass(xclass,value);
+				self._parent = opts.requires.call(self,null,value);
 			}
 		},
 		/**
@@ -74,7 +74,7 @@ var opts = {
 				if (type == 'object') {
 					self._mixins[_] = c;
 				} else if (type == 'string') {
-					self._mixins[_] = getClass(xclass,c);
+					self._mixins[_] = opts.requires.call(self,null,c);
 				}
 			});
 		},
@@ -95,7 +95,7 @@ var opts = {
 					Keywords(self,value);
 					Properties(self,value);
 				} else if (type == 'string') {
-					getClass(xclass,value).applyTo(self);
+					opts.requires.call(self,null,value).applyTo(self);
 				}
 			}
 		},
@@ -103,15 +103,20 @@ var opts = {
 		 *	Require keyword
 		 */
 		'requires' : function(keyword,value){
-			var self = this;
+			var self = this,
+				result;
 
 			if (value instanceof Array) {
-				forEach(value,function(){
-					opts.requires.apply(self,arguments);
-				});
+				return forEach(value,function(){
+					this.result.push(opts.requires.apply(self,arguments));
+				},[]);
 			} else {
-				load(value);
+				load(value,function(handle){
+					result = handle;
+				},synchronousLoading);
 			}
+
+			return result;
 		}
 	},
 	/**

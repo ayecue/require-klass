@@ -1,9 +1,7 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach'),
-	extend = require('fn/extend'),
-	Event = require('cls/event');
+var forEach = require('fn/forEach');
 
 /**
  *	Micro Listener Object
@@ -15,7 +13,7 @@ function Listener(){
 /**
  *	Extend prototypes
  */
-extend(Listener.prototype,{
+Listener.prototype = {
 	/**
 	 *	Register event
 	 */
@@ -44,6 +42,6 @@ extend(Listener.prototype,{
 			self.pool[name].splice(self.pool[name].indexOf(fn),1);
 		}
 	}
-});
+};
 
 module.exports = Listener;

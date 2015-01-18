@@ -18,7 +18,8 @@ module.exports = extend(config.xclass,{
 	override : require('fn/override'),
 	namespace : require('fn/namespace'),
 	require : require('fn/load'),
-	getClass : function(path){
+	listener : require('cls/listener'),
+	get : function(path){
 		return getClass(this,path);
 	},
 	define : require('cls/factory')

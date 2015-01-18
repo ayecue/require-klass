@@ -1,7 +1,7 @@
 module.exports = {
 	xclass : {},
 	loadFileTpl : '%path%.js',
-	allowMonkeyPatchRequireJS : true,
+	synchronousLoading : true,
 	defaultDebugging : true,
 	defaultSingleton : false,
 	defaultAutoSetterGetter : true,
