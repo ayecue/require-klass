@@ -7,6 +7,7 @@ var extend = require('fn/extend'),
 	getClass = require('fn/getClass'),
 	load = require('fn/load'),
 	config = require('cls/config'),
+	manager = require('cls/manager'),
 	Property = require('prop/property'),
 	Properties = require('cls/properties');
 
@@ -15,7 +16,7 @@ var extend = require('fn/extend'),
  */
 var errorDoubleParent = config.errorDoubleParent,
 	synchronousLoading = config.synchronousLoading,
-	xclass = config.xclass;
+	xclass = manager.xclass;
 
 /**
  *	Keyword operations

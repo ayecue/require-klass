@@ -5,15 +5,17 @@ var extend = require('fn/extend'),
     forEach = require('fn/forEach'),
 	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
-	config = require('cls/config');
+	config = require('cls/config'),
+    manager = require('cls/manager'),
+    Listener = require('cls/listener');
 
 /**
  *	Shortcuts
  */
 var loadFileTpl = config.loadFileTpl,
-	xclass = config.xclass,
+	xclass = manager.xclass,
 	req = global.require,
-    pending = {};
+    pending = manager.pending;
 
 /**
  *	Get path to file
@@ -33,14 +35,14 @@ module.exports = function(id,fn,synchronous){
     if (handle !== null) {
         return fn(handle);
     }
-
-    var absolutePath = getAbsolutePath(id);
-
-    if (absolutePath in pending) {
-        return pending[absolutePath].push(fn);
+    
+    if (id in pending) {
+        return pending[id].on('ready',fn);
     }
 
-	var node = req.load({
+	var absolutePath = getAbsolutePath(id),
+        listener = pending[id] = new Listener(),
+        node = req.load({
         	contextName : '_'
         },absolutePath,absolutePath),
         onload = function( _,failure){
@@ -49,16 +51,14 @@ module.exports = function(id,fn,synchronous){
             var state = node.readyState;
         
             if (failure || !state || /loaded|complete/i.test( state ) ){   
-                forEach(pending[absolutePath],function(_,fn){
-                    fn(!failure && getClass(xclass,id));
-                });
-
-                pending[absolutePath] = node.onerror = node.onload = node.onreadystatechange = null;
+                pending[id] = node.onerror = node.onload = node.onreadystatechange = null;
+                delete pending[id];
                 !!node.parentNode && node.parentNode.removeChild( node );
+                listener.fire('ready',null,[!failure && getClass(xclass,id)]);
             }
         };
 
-    pending[absolutePath] = [fn];
+    listener.on('ready',fn);
 
     extend(node,{
         async : !synchronous,

@@ -8,6 +8,7 @@ var forEach = require('fn/forEach'),
 	getClass = require('fn/getClass'),
 	namespace = require('fn/namespace'),
 	config = require('cls/config'),
+	manager = require('cls/manager'),
 	templates = require('cls/templates'),
 	Keywords = require('cls/keywords'),
 	Properties = require('cls/properties'),
@@ -17,7 +18,7 @@ var forEach = require('fn/forEach'),
 /**
  *	Shortcuts
  */
-var xclass = config.xclass,
+var xclass = manager.xclass,
 	errorAlreadyDefined = config.errorAlreadyDefined,
 	errorEval = config.errorEval;
 

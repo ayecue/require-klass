@@ -2,12 +2,12 @@
  *	Dependencies
  */
 var forEach = require('fn/forEach'),
-	config = require('cls/config');
+	manager = require('cls/manager');
 
 /**
  *	Shortcuts
  */
-var xclass = config.xclass;
+var xclass = manager.xclass;
 
 /**
  *	Create namespace

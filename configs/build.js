@@ -1,5 +1,4 @@
 module.exports = {
-	xclass : {},
 	loadFileTpl : '%path%.js',
 	synchronousLoading : true,
 	defaultDebugging : false,
