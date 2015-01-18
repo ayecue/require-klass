@@ -66,11 +66,5 @@ module.exports = function(){
 		Properties(handle,properties);
 	});
 
-	var parent = handle.getParent();
-
-	if (parent) {
-		parent.applyTo(handle);
-	}
-
 	return !!handle.singleton ? new handle() : handle;
 };

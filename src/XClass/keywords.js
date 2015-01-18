@@ -58,6 +58,10 @@ var opts = {
 					handle.applyTo(self);
 				});
 			}
+
+			if (self._parent) {
+				self._parent.applyTo(handle);
+			}
 		},
 		/**
 		 *	Extend default keyword
