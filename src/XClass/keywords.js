@@ -56,9 +56,7 @@ var opts = {
 				});
 			} else {
 				forEach(value,function(_,c){
-					if (!(_ in self)) {
-						Property(self,self,_,c);
-					}
+					Property(self,self,_,c);
 				});
 			}
 		},
