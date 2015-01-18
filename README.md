@@ -7,17 +7,17 @@ Pseudo class system which helps you building big systems fast. Could be compared
 
 The global xclass got following methods:
 
-* <a href="#xclass.id">xclass.id() - Generate class id and returns the string
-* <a href="#xclass.forEach">xclass.forEach(object,callback,context)</a> - Used to loop though objects/arrays
-* <a href="#xclass.toArray">xclass.toArray(arrayLikeObject)</a> - Convert array like objects to an array
-* <a href="#xclass.extend">xclass.extend(object1,object2,object3)</a> - Merge objects
-* <a href="#xclass.printf">xclass.printf(templateString,key,value)</a> - Used fill template strings
-* <a href="#xclass.typeOf">xclass.typeOf(object)</a> - Gets type of object
-* <a href="#xclass.override">xclass.override(StringOfClass,classObject)</a> - Override certain values of class
-* <a href="#xclass.namespace">xclass.namespace(StringOfClass)</a> - Create namespace for class
-* <a href="#xclass.require">xclass.require(ArrayWithLibraries,CallbackAfterLoading)</a> - Load class
-* <a href="#xclass.get">xclass.get(PathToClass)</a> - Trace for class
-* <a href="#xclass.define">xclass.define(NameForClass,ClassConfig)</a> - Create class
+* <a href="#xclassid">xclass.id()</a> - Generate class id and returns the string
+* <a href="#xclassforeach">xclass.forEach(object,callback,context)</a> - Used to loop though objects/arrays
+* <a href="#xclasstoarray">xclass.toArray(arrayLikeObject)</a> - Convert array like objects to an array
+* <a href="#xclassextend">xclass.extend(object1,object2,object3)</a> - Merge objects
+* <a href="#xclassprintf">xclass.printf(templateString,key,value)</a> - Used fill template strings
+* <a href="#xclasstypeof">xclass.typeOf(object)</a> - Gets type of object
+* <a href="#xclassoverride">xclass.override(StringOfClass,classObject)</a> - Override certain values of class
+* <a href="#xclassnamespace">xclass.namespace(StringOfClass)</a> - Create namespace for class
+* <a href="#xclassrequire">xclass.require(ArrayWithLibraries,CallbackAfterLoading)</a> - Load class
+* <a href="#xclassget">xclass.get(PathToClass)</a> - Trace for class
+* <a href="#xclassdefine">xclass.define(NameForClass,ClassConfig)</a> - Create class
 
 
 ## xclass.id
