@@ -1,4 +1,3 @@
 module.exports = {
-	xclass : {},
-	pending : {}
+	xclass : {}
 };

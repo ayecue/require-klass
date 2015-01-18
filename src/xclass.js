@@ -29,7 +29,7 @@ module.exports = extend(manager.xclass,{
 			namespace(this,id);
 		});
 	},
-	require : require('fn/require'),
+	require : require('fn/load'),
 	listener : require('cls/listener'),
 	get : function(path){
 		return getClass(this,path);

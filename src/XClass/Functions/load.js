@@ -1,21 +1,18 @@
 /**
  *	Dependencies
  */
-var extend = require('fn/extend'),
-    forEach = require('fn/forEach'),
+var forEach = require('fn/forEach'),
 	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
 	config = require('cls/config'),
-    manager = require('cls/manager'),
-    Listener = require('cls/listener');
+    manager = require('cls/manager');
 
 /**
  *	Shortcuts
  */
 var loadFileTpl = config.loadFileTpl,
 	xclass = manager.xclass,
-	req = global.require,
-    pending = manager.pending;
+	req = global.require;
 
 /**
  *	Get path to file
@@ -29,43 +26,37 @@ function getAbsolutePath(id){
 /**
  *	Load class
  */
-module.exports = function(id,fn,synchronous){
-    var handle = getClass(xclass,id);
-
-    if (handle !== null) {
-        return fn(handle,false);
-    }
-    
-    if (id in pending) {
-        return pending[id].on('ready',fn);
+module.exports = function(libraries,fn){
+    if (!(libraries instanceof Array)) {
+        libraries = [libraries];
     }
 
-	var absolutePath = getAbsolutePath(id),
-        listener = pending[id] = new Listener(),
-        node = req.load({
-        	contextName : '_'
-        },absolutePath,absolutePath),
-        onload = function( _,failure){
-            if (!node) return;
-                                        
-            var state = node.readyState;
-        
-            if (failure || !state || /loaded|complete/i.test( state ) ){   
-                pending[id] = node.onerror = node.onload = node.onreadystatechange = null;
-                delete pending[id];
-                !!node.parentNode && node.parentNode.removeChild( node );
-                listener.fire('ready',null,[!failure && getClass(xclass,id),true]);
-            }
-        };
+    req(forEach(libraries,function(_,id){
+        var handle = getClass(xclass,id);
 
-    listener.on('ready',fn);
-
-    extend(node,{
-        async : !synchronous,
-        onload : onload,
-        onreadystatechange : onload,
-        onerror : function(_){
-            onload(_,true);
+        if (handle === null) {
+            this.result.push(getAbsolutePath(id));
         }
+    },[]),function(){
+        var queue = function(){
+                var handles = forEach(libraries,function(_,id){
+                    var handle = getClass(xclass,id);
+
+                    if (handle && !handle._pending) {
+                        this.result.push(handle);
+                    } else {
+                        this.result = false;
+                        this.skip = true;
+                    }
+                },[]);
+
+                if (handles !== false) {
+                    return fn.apply(null,handles);
+                }
+
+                setTimeout(queue);
+            };
+
+        queue();
     });
 };

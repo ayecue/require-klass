@@ -19,23 +19,6 @@ var errorDoubleParent = config.errorDoubleParent,
 	xclass = manager.xclass;
 
 /**
- *	Load class for property
- */
-function loadPropertiesFromClass(value,fn){
-	var result;
-
-	load(value,function(handle,delayed){
-		result = handle;
-
-		if (delayed && fn) {
-			fn(handle);
-		}
-	},synchronousLoading);
-
-	return result;
-}
-
-/**
  *	Keyword operations
  */
 var opts = {
@@ -43,24 +26,22 @@ var opts = {
 		 *	Extend parent keyword
 		 */
 		'parent' : function(keyword,value){
-			var self = this,
-				type = typeof value;
+			var self = this;
 
 			if (self._parent != null) {
 				throw new Error(printf(errorDoubleParent,'name',self.getName()));
 			}
 
+			var type = typeof value;
+
 			if (type == 'object') {
 				self._parent = value;
 			} else if (type == 'string') {
-				self._parent = loadPropertiesFromClass(value,function(handle){
-					self._parent = handle;
-					handle.applyTo(self);
-				});
+				self._parent = getClass(xclass,value);
 			}
 
 			if (self._parent) {
-				self._parent.applyTo(handle);
+				self._parent.applyTo(self);
 			}
 		},
 		/**
@@ -97,9 +78,7 @@ var opts = {
 				if (type == 'object') {
 					self._mixins[_] = c;
 				} else if (type == 'string') {
-					self._mixins[_] = loadPropertiesFromClass(c,function(handle){
-						self._mixins[_] = handle;
-					});
+					self._mixins[_] = getClass(xclass,c);
 				}
 			});
 		},
@@ -120,34 +99,9 @@ var opts = {
 					Keywords(self,value);
 					Properties(self,value);
 				} else if (type == 'string') {
-					var trait = loadPropertiesFromClass(value,function(handle){
-						handle.applyTo(self);
-					});
-
-					if (trait !== null) {
-						trait.applyTo(self);
-					}
+					getClass(xclass,value).applyTo(self);
 				}
 			}
-		},
-		/**
-		 *	Require keyword
-		 */
-		'requires' : function(keyword,value){
-			var self = this,
-				result;
-
-			if (value instanceof Array) {
-				return forEach(value,function(){
-					this.result.push(opts.requires.apply(self,arguments));
-				},[]);
-			} else {
-				load(value,function(handle){
-					result = handle;
-				},synchronousLoading);
-			}
-
-			return result;
 		}
 	},
 	/**
@@ -160,7 +114,6 @@ var opts = {
 		'statics' : opts.statics,
 		'mixins' : opts.mixins,
 		'traits' : opts.traits,
-		'requires' : opts.requires,
 		'extends' : opts.parent
 	};
 

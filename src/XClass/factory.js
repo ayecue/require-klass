@@ -2,7 +2,6 @@
  *	Dependencies
  */
 var forEach = require('fn/forEach'),
-	toArray = require('fn/toArray'),
 	extend = require('fn/extend'),
 	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
@@ -10,6 +9,7 @@ var forEach = require('fn/forEach'),
 	config = require('cls/config'),
 	manager = require('cls/manager'),
 	templates = require('cls/templates'),
+	Deps = require('cls/deps'),
 	Keywords = require('cls/keywords'),
 	Properties = require('cls/properties'),
 	Statics = require('cls/statics'),
@@ -53,15 +53,13 @@ function compile(id){
 /**
  *	Create pseudo class
  */
-module.exports = function(){
-	var args = toArray(arguments),
-		id = typeof args[0] == 'string' ? args.shift() : null,
-		handle = compile(id);
+module.exports = function(id,properties){
+	var handle = compile(id);
 	
 	extend(handle,Statics(handle));
 	extend(handle.prototype,Prototypes(handle));
 
-	forEach(args,function(_,properties){
+	Deps(handle,properties,function(){
 		Keywords(handle,properties);
 		Properties(handle,properties);
 	});

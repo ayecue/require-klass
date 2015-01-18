@@ -17,6 +17,7 @@ module.exports = function(handle){
 		singleton : config.defaultSingleton,
 		debug : config.defaultDebugging,
 		autoSetterGetter : config.defaultAutoSetterGetter,
+		_pending : false,
 		_mixins : {},
 		/**
 		 *	Default methods
@@ -60,18 +61,18 @@ module.exports = function(handle){
 		logMessage : function(args,error){
 			Logger(this,args,error);
 		},
-		applyTo : function(handle){
+		applyTo : function(handle,force){
 			var parent = this;
 
 			if (parent) {
 				forEach(parent,function(keyword,value){
-					if (!(keyword in handle)) {
+					if (!(keyword in handle) || force) {
 						handle[keyword] = value;
 					}
 				});
 
 				forEach(parent.prototype,function(keyword,value){
-					if (!(keyword in handle.prototype)) {
+					if (!(keyword in handle.prototype) || force) {
 						handle.prototype[keyword] = value;
 					}
 				});
