@@ -2,6 +2,7 @@
  *	Dependencies
  */
 var extend = require('fn/extend'),
+    forEach = require('fn/forEach'),
 	printf = require('fn/printf'),
 	getClass = require('fn/getClass'),
 	config = require('cls/config');
@@ -11,11 +12,8 @@ var extend = require('fn/extend'),
  */
 var loadFileTpl = config.loadFileTpl,
 	xclass = config.xclass,
-	req = global.require;
-
-/**
- *	Monkey patch requirejs createNode
- */
+	req = global.require,
+    pending = {};
 
 /**
  *	Get path to file
@@ -36,8 +34,13 @@ module.exports = function(id,fn,synchronous){
         return fn(handle);
     }
 
-	var absolutePath = getAbsolutePath(id),
-        node = req.load({
+    var absolutePath = getAbsolutePath(id);
+
+    if (absolutePath in pending) {
+        return pending[absolutePath].push(fn);
+    }
+
+	var node = req.load({
         	contextName : '_'
         },absolutePath,absolutePath),
         onload = function( _,failure){
@@ -45,12 +48,17 @@ module.exports = function(id,fn,synchronous){
                                         
             var state = node.readyState;
         
-            if (failure || !state || /loaded|complete/i.test( state ) ){                   
-                node.onerror = node.onload = node.onreadystatechange = null;
+            if (failure || !state || /loaded|complete/i.test( state ) ){   
+                forEach(pending[absolutePath],function(_,fn){
+                    fn(!failure && getClass(xclass,id));
+                });
+
+                pending[absolutePath] = node.onerror = node.onload = node.onreadystatechange = null;
                 !!node.parentNode && node.parentNode.removeChild( node );
-                fn(!failure && getClass(xclass,id));
             }
         };
+
+    pending[absolutePath] = [fn];
 
     extend(node,{
         async : !synchronous,

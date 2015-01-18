@@ -63,10 +63,6 @@
 				}
 			});
 
-
-				var foo = new smaller(),
-					lul = new test();
-
 			xclass.override('w.smaller',{
 				lulu : {
 					5 : 6
@@ -75,6 +71,14 @@
 					this.callParent(['foo']);
 					this.logMessage('wassup',true);
 				}
+			});
+
+			xclass.require([
+				'w.test',
+				'w.smaller',
+				'w.run'
+			],function(test,smaller,run){
+				debugger;
 			});
 		</script>
 	</head>
