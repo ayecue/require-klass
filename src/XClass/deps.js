@@ -98,9 +98,11 @@ function Deps(handle,properties,fn) {
 	});
 
 	handle._pending = true;
+	handle.listener.fire('pending',handle);
 	load(reqs,function(){
 		handle._pending = false;
-		fn();
+		fn(handle);
+		handle.listener.fire('loaded',handle);
 	});
 };
 

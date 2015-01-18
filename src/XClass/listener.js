@@ -39,7 +39,8 @@ Listener.prototype = {
 	off : function(name,fn){
 		var self = this;
 		if (name in self.pool){
-			self.pool[name].splice(self.pool[name].indexOf(fn),1);
+			var index = self.pool[name].indexOf(fn);
+			index != -1 && self.pool[name].splice(index,1);
 		}
 	}
 };

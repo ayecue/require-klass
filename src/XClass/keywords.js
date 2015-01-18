@@ -45,12 +45,6 @@ var opts = {
 			}
 		},
 		/**
-		 *	Extend default keyword
-		 */
-		'set' : function(keyword,value){
-			this[keyword] = value;
-		},
-		/**
 		 *	Extend statics keyword
 		 */
 		'statics' : function(keyword,value){
@@ -108,9 +102,6 @@ var opts = {
 	 *	Possible internal keywords on class with link to keyword operation 
 	 */
 	internals = {
-		'singleton' : opts.set,
-		'debug' : opts.set,
-		'autoSetterGetter' : opts.set,
 		'statics' : opts.statics,
 		'mixins' : opts.mixins,
 		'traits' : opts.traits,

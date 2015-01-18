@@ -4,6 +4,7 @@
 var forEach = require('fn/forEach'),
 	callParent = require('fn/callParent'),
 	config = require('cls/config'),
+	Listener = require('cls/listener'),
 	Logger = require('cls/logger');
 
 /**
@@ -17,6 +18,7 @@ module.exports = function(handle){
 		singleton : config.defaultSingleton,
 		debug : config.defaultDebugging,
 		autoSetterGetter : config.defaultAutoSetterGetter,
+		listener : new Listener(),
 		_pending : false,
 		_mixins : {},
 		/**
@@ -24,6 +26,12 @@ module.exports = function(handle){
 		 */
 		getClass : function(){
 			return this;
+		},
+		getListener : function(){
+			return this.listener;
+		},
+		getPending : function(){
+			return this._pending;
 		},
 		getMixins : function(){
 			return this._mixins;

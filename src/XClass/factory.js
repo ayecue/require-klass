@@ -10,6 +10,7 @@ var forEach = require('fn/forEach'),
 	manager = require('cls/manager'),
 	templates = require('cls/templates'),
 	Deps = require('cls/deps'),
+	Settings = require('cls/settings'),
 	Keywords = require('cls/keywords'),
 	Properties = require('cls/properties'),
 	Statics = require('cls/statics'),
@@ -58,6 +59,8 @@ module.exports = function(id,properties){
 	
 	extend(handle,Statics(handle));
 	extend(handle.prototype,Prototypes(handle));
+
+	Settings(handle,properties);
 
 	Deps(handle,properties,function(){
 		Keywords(handle,properties);

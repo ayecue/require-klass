@@ -39,23 +39,23 @@ module.exports = function(libraries,fn){
         }
     },[]),function(){
         var queue = function(){
-                var handles = forEach(libraries,function(_,id){
-                    var handle = getClass(xclass,id);
+            var handles = forEach(libraries,function(_,id){
+                var handle = getClass(xclass,id);
 
-                    if (handle && !handle._pending) {
-                        this.result.push(handle);
-                    } else {
-                        this.result = false;
-                        this.skip = true;
-                    }
-                },[]);
-
-                if (handles !== false) {
-                    return fn.apply(null,handles);
+                if (handle && !handle._pending) {
+                    this.result.push(handle);
+                } else {
+                    this.result = false;
+                    this.skip = true;
                 }
+            },[]);
 
-                setTimeout(queue);
-            };
+            if (handles !== false) {
+                return fn.apply(null,handles);
+            }
+
+            setTimeout(queue);
+        };
 
         queue();
     });

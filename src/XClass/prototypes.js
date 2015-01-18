@@ -8,6 +8,7 @@ var forEach = require('fn/forEach'),
 	callParent = require('fn/callParent'),
 	generateSetterGetter = require('fn/generateSetterGetter'),
 	config = require('cls/config'),
+	Listener = require('cls/listener'),
 	Logger = require('cls/logger');
 
 /**
@@ -21,6 +22,7 @@ module.exports = function(handle){
 		_class : handle,
 		_defaultValues : {},
 		isPrototypeObject : true,
+		listener : new Listener(),
 		/**
 		 *	Default methods
 		 */
@@ -48,6 +50,9 @@ module.exports = function(handle){
 		getClass : function(){
 			return this._class;
 		},
+		getListener : function(){
+			return this.listener;
+		},
 		getCalledMethod : function(){
 			return this._calledMethod;
 		},
@@ -71,6 +76,9 @@ module.exports = function(handle){
 		},
 		getParent : function(){
 			return this.getClass().getParent();
+		},
+		getPending : function(){
+			return this.getClass().getPending();
 		},
 		getName : function(){
 			return this.getClass().getName();
