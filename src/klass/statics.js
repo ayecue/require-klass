@@ -73,15 +73,11 @@ module.exports = function(name,handle){
 
 			if (parent) {
 				forEach(parent,function(keyword,value){
-					if (!(keyword in handle) || force) {
-						handle[keyword] = value;
-					}
+					(!(keyword in handle) || force) && (handle[keyword] = value);
 				});
 
 				forEach(parent.prototype,function(keyword,value){
-					if (!(keyword in handle.prototype) || force) {
-						handle.prototype[keyword] = value;
-					}
+					(!(keyword in handle.prototype) || force) && (handle.prototype[keyword] = value);
 				});
 			}
 		}
@@ -91,10 +87,7 @@ module.exports = function(name,handle){
 	 *	Merge with config statics
 	 */
 	var getStatics = config.getStatics;
-
-	if (getStatics) {
-		extend(statics,getStatics.call(statics,handle));
-	}
+	getStatics && extend(statics,getStatics.call(statics,handle));
 
 	return statics;
 };

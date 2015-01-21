@@ -28,10 +28,8 @@ module.exports = function(name,handle){
 		 *	Default methods
 		 */
 		_init : function(){
-			var self = this,
-				values = self.getDefaultValues();
-
-			forEach(values,function(keyword,value){
+			var self = this;
+			forEach(self.getDefaultValues(),function(keyword,value){
 				if (value instanceof Array) {
 					self[keyword] = [].concat(value);
 				} else if (value instanceof Object) {
@@ -40,10 +38,7 @@ module.exports = function(name,handle){
 					self[keyword] = value;
 				}
 			});
-
-			if (self.getClass().autoSetterGetter) {
-				auto.call(self.getClass().prototype,self);
-			}
+			self.getClass().autoSetterGetter && auto.call(self.getClass().prototype,self);
 		},
 		getDefaultValues : function(){
 			return this.$defaultValues;
@@ -88,24 +83,16 @@ module.exports = function(name,handle){
 			return this.getClass().isDebug();
 		},
 		extend : function(){
-			var self = this,
-				args = toArray(arguments);
-
-			extend.apply(null,[self].concat(args));
-
-			if (self.getClass().autoSetterGetter) {
-				auto.call(self.getClass().prototype,self);
-			}
+			var self = this;
+			extend.apply(null,[self].concat(toArray(arguments)));
+			self.getClass().autoSetterGetter && auto.call(self.getClass().prototype,self);
 		},
 		callMixin : function(name,property,args) {
 			var mixins = this.getClass().getMixins();
 
 			if (name in mixins) {
 				var fn = prop(property,mixins[name]);
-
-				if (fn) {
-					fn.apply(this,args);
-				}
+				fn && fn.apply(this,args);
 			} 
 		}
 	};
@@ -121,10 +108,7 @@ module.exports = function(name,handle){
 	 *	Merge with config prototypes
 	 */
 	var getPrototypes = config.getPrototypes;
-
-	if (getPrototypes) {
-		extend(prototypes,getPrototypes.call(prototypes,handle));
-	}
+	getPrototypes && extend(prototypes,getPrototypes.call(prototypes,handle));
 
 	return prototypes;
 };

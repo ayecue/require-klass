@@ -14,15 +14,13 @@ var opts = {'function' : func,'default' : all};
 function func(source,target,keyword,value){
 	var mtd = method(source,keyword,value);
 
-	if (source.isDebug()) {
-		mtd.$listener
-			.on('before',function(base){
-				logger(this,'start');
-			})
-			.on('after',function(base,result){
-				logger(this,['returns:',result]);
-			});
-	}
+	source.isDebug() && mtd.$listener
+		.on('before',function(base){
+			logger(this,'start');
+		})
+		.on('after',function(base,result){
+			logger(this,['returns:',result]);
+		});
 
 	target[keyword] = function(){return mtd(this,arguments);};
 }

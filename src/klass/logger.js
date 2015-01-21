@@ -46,12 +46,9 @@ function analyze(context){
 		return;
 	}
 
-	var	link = matches.pop(),
-		name = matches.pop();
-
 	return printf(traceTpl,{
-		name : name,
-		link : link
+		link : matches.pop(),
+		name : matches.pop()
 	});
 }
 
@@ -112,7 +109,5 @@ function print(context,args,error,color){
  *	External print function
  */
 module.exports = function(context,args,error){
-	var message = [].concat('[',args,']');
-
-	print(context,message,error,userColor);
+	print(context,[].concat('[',args,']'),error,userColor);
 };

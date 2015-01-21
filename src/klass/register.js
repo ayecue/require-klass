@@ -7,9 +7,5 @@ var extend = require('./Functions/extend'),
 	namespace = require('./Functions/namespace');
 
 module.exports = function(handle){
-	if (handle.singleton) {
-		handle = new handle();
-	}
-
-	namespace(handle.getName(),handle);
+	namespace(handle.getName(),handle.singleton ? new handle() : handle);
 };

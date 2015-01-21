@@ -28,17 +28,12 @@ function object(values){
 	var result = [];
 	return forEach(values,function(_,value){
 		var lib = single(value);
-		if (lib) {
-			this.result = result = result.concat(lib);
-		}
+		lib && (this.result = result = result.concat(lib));
 	});
 }
 
 function array(values){
-	if (values instanceof Array) {
-		return object(values);
-	}
-	return single(values);
+	return values instanceof Array ? object(values) : single(values);
 }
 
 module.exports = function(handle,values){
