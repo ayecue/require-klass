@@ -1,16 +1,17 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach'),
-	callParent = require('fn/callParent'),
-	config = require('cls/config'),
-	Listener = require('cls/listener'),
-	Logger = require('cls/logger');
+var forEach = require('./Functions/forEach'),
+	callParent = require('./Functions/parent'),
+	config = require('./config'),
+	logger = require('./logger'),
+	stack = require('./stack'),
+	Listener = require('./listener');
 
 /**
  *	Default class statics
  */
-module.exports = function(handle){
+module.exports = function(name,handle){
 	var statics = {
 		/**
 		 *	Default variables
@@ -19,8 +20,8 @@ module.exports = function(handle){
 		debug : config.defaultDebugging,
 		autoSetterGetter : config.defaultAutoSetterGetter,
 		listener : new Listener(),
-		_pending : false,
-		_mixins : {},
+		$classname : name,
+		$mixins : {},
 		/**
 		 *	Default methods
 		 */
@@ -30,44 +31,42 @@ module.exports = function(handle){
 		getListener : function(){
 			return this.listener;
 		},
-		getPending : function(){
-			return this._pending;
-		},
 		getMixins : function(){
-			return this._mixins;
+			return this.$mixins;
 		},
 		getCalledMethod : function(){
-			return this._calledMethod;
+			return stack.g();
 		},
-		getCalledMethodBase : function(){
+		getCalledMethodKlass : function(){
 			var calledMethod = this.getCalledMethod();
-
-			return calledMethod && calledMethod._base;
+			return calledMethod && calledMethod.$klass;
 		},
 		getCalledMethodName : function(){
 			var calledMethod = this.getCalledMethod();
-
-			return calledMethod && calledMethod._name;
+			return calledMethod && calledMethod.$name;
 		},
 		getCalledMethodFunction : function(){
 			var calledMethod = this.getCalledMethod();
-
-			return calledMethod && calledMethod._function;
+			return calledMethod && calledMethod.$function;
 		},
-		getParent : function(){
-			return this._parent;
+		getCalledMethodBefore : function(){
+			var calledMethod = this.getCalledMethod();
+			return calledMethod && calledMethod.$last;
 		},
 		callParent : function(args){
 			callParent.call(this,args);
 		},
-		isDebug : function(){
-			return this.debug;
+		getParent : function(){
+			return this.$parent;
 		},
 		getName : function(){
-			return this.name;
+			return this.$classname;
 		},
 		logMessage : function(args,error){
-			Logger(this,args,error);
+			logger(this,args,error);
+		},
+		isDebug : function(){
+			return this.debug;
 		},
 		applyTo : function(handle,force){
 			var parent = this;
@@ -88,6 +87,9 @@ module.exports = function(handle){
 		}
 	};
 
+	/**
+	 *	Merge with config statics
+	 */
 	var getStatics = config.getStatics;
 
 	if (getStatics) {

@@ -1,26 +1,27 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach'),
-	toArray = require('fn/toArray'),
-	extend = require('fn/extend'),
-	getClass = require('fn/getClass'),
-	callParent = require('fn/callParent'),
-	generateSetterGetter = require('fn/generateSetterGetter'),
-	config = require('cls/config'),
-	Listener = require('cls/listener'),
-	Logger = require('cls/logger');
+var forEach = require('./Functions/forEach'),
+	toArray = require('./Functions/toArray'),
+	extend = require('./Functions/extend'),
+	prop = require('./Functions/prop'),
+	callParent = require('./Functions/parent'),
+	auto = require('./Functions/auto'),
+	config = require('./config'),
+	logger = require('./logger'),
+	property = require('./property'),
+	Listener = require('./listener');
 
 /**
  *	Default class prototypes
  */
-module.exports = function(handle){
+module.exports = function(name,handle){
 	var prototypes = {
 		/**
 		 *	Default variables
 		 */
-		_class : handle,
-		_defaultValues : {},
+		$class : handle,
+		$defaultValues : {},
 		isPrototypeObject : true,
 		listener : new Listener(),
 		/**
@@ -41,35 +42,32 @@ module.exports = function(handle){
 			});
 
 			if (self.getClass().autoSetterGetter) {
-				generateSetterGetter.call(self.getClass().prototype,self);
+				auto.call(self.getClass().prototype,self);
 			}
 		},
 		getDefaultValues : function(){
-			return this._defaultValues;
+			return this.$defaultValues;
 		},
 		getClass : function(){
-			return this._class;
+			return this.$class;
 		},
 		getListener : function(){
 			return this.listener;
 		},
 		getCalledMethod : function(){
-			return this._calledMethod;
+			return this.getClass().getCalledMethod();
 		},
-		getCalledMethodBase : function(){
-			var calledMethod = this.getCalledMethod();
-
-			return calledMethod && calledMethod._base;
+		getCalledMethodKlass : function(){
+			return this.getClass().getCalledMethodKlass();
 		},
 		getCalledMethodName : function(){
-			var calledMethod = this.getCalledMethod();
-
-			return calledMethod && calledMethod._name;
+			return this.getClass().getCalledMethodName();
 		},
 		getCalledMethodFunction : function(){
-			var calledMethod = this.getCalledMethod();
-
-			return calledMethod && calledMethod._function;
+			return this.getClass().getCalledMethodFunction();
+		},
+		getCalledMethodBefore : function(){
+			return this.getClass().getCalledMethodBefore();
 		},
 		callParent : function(args){
 			callParent.call(this,args,'prototype');
@@ -77,11 +75,14 @@ module.exports = function(handle){
 		getParent : function(){
 			return this.getClass().getParent();
 		},
-		getPending : function(){
-			return this.getClass().getPending();
-		},
 		getName : function(){
 			return this.getClass().getName();
+		},
+		logMessage : function(args,error){
+			logger(this,args,error);
+		},
+		isDebug : function(){
+			return this.getClass().isDebug();
 		},
 		extend : function(){
 			var self = this,
@@ -90,20 +91,14 @@ module.exports = function(handle){
 			extend.apply(null,[self].concat(args));
 
 			if (self.getClass().autoSetterGetter) {
-				generateSetterGetter.call(self.getClass().prototype,self);
+				auto.call(self.getClass().prototype,self);
 			}
 		},
-		logMessage : function(args,error){
-			Logger(this,args,error);
-		},
-		isDebug : function(){
-			return this.getClass().isDebug();
-		},
-		callMixin : function(name,prop,args) {
+		callMixin : function(name,property,args) {
 			var mixins = this.getClass().getMixins();
 
 			if (name in mixins) {
-				var fn = getClass(mixins[name],prop);
+				var fn = prop(property,mixins[name]);
 
 				if (fn) {
 					fn.apply(this,args);
@@ -112,6 +107,16 @@ module.exports = function(handle){
 		}
 	};
 
+	/**
+	 *	Default properties	
+	 */
+	property(handle,prototypes,'constructor',function(){
+		this.callParent(arguments);
+	});
+
+	/**
+	 *	Merge with config prototypes
+	 */
 	var getPrototypes = config.getPrototypes;
 
 	if (getPrototypes) {

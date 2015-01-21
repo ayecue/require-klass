@@ -1,4 +1,4 @@
 (function (global, factory) {
-    global.xclass = factory(global);
+    global.klass = factory(global);
 }(this, function (global) {
 

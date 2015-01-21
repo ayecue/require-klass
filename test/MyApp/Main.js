@@ -1,9 +1,12 @@
-xclass.define('MyApp.Main',{
+klass.define('MyApp.Main',{
 	extends : 'MyApp.Base',
+	singleton : true,
 	mixins : {
 		Base : 'MyApp.Base'
 	},
-	traits : [
-		'MyApp.Base'
-	]
+	constructor : function(){
+		var base = new MyApp.Base();
+
+		base.write();
+	}
 });

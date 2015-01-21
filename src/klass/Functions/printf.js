@@ -1,4 +1,4 @@
-var forEach = require('fn/forEach'),
+var forEach = require('./forEach'),
 	/**
 	 *	Variables
 	 */

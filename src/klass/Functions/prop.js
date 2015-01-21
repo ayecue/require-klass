@@ -1,12 +1,12 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach');
+var forEach = require('./forEach');
 
 /**
  *	Search for path
  */
-module.exports = function(root,path,delimiter){
+module.exports = function(path,root,delimiter){
 	var splitted = path.split(delimiter || '.');
 	
 	return forEach(splitted,function(_,className){
@@ -16,5 +16,5 @@ module.exports = function(root,path,delimiter){
 			this.result = null;
 			this.skip = true;
 		}
-	},root);
+	},root || global);
 };

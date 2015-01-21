@@ -1,23 +1,22 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach'),
-	extend = require('fn/extend'),
-	printf = require('fn/printf'),
-	config = require('cls/config');
+var forEach = require('./Functions/forEach'),
+	extend = require('./Functions/extend'),
+	printf = require('./Functions/printf');
 
 /**
  *	Shortcuts
  */
-var exceptionsColor = config.logMessageExceptionColor,
-	successColor = config.logMessageSuccessColor,
-	userColor = config.logMessageUserColor,
-	unknownName = config.logMessageUnknownName,
-	anonymousName = config.logMessageAnonymousName,
-	searchPattern = config.logMessageSearchPattern,
-	tracePattern = config.logMessageTracePattern,
-	traceTpl = config.logMessageTraceTpl,
-	styleTpl = config.logMessageStyleTpl;
+var exceptionColor = '#D8000C',
+	successColor = '#4F8A10',
+	userColor = '#008B8B',
+	unknownName = 'unknown',
+	anonymousName = 'anonymous',
+	searchPattern = /pLogMessage/i,
+	tracePattern = /at\s(\S+)\s[^\(]*\(([^\)]+)\)/i,
+	traceTpl = '${%name%} (%link%)',
+	styleTpl = 'color:%hexcode%;';
 
 /**
  *	Trace context location
@@ -50,7 +49,7 @@ function analyze(context){
 	var	link = matches.pop(),
 		name = matches.pop();
 
-	return _printf(traceTpl,{
+	return printf(traceTpl,{
 		name : name,
 		link : link
 	});
@@ -89,7 +88,7 @@ function toMessages(args){
 function print(context,args,error,color){
 	var color = error ? exceptionsColor : color,
 		style = getStyle(color),
-		base = context.getCalledMethodBase(),
+		base = context.getCalledMethodKlass(),
 		contextName = base ? base.getName() : unknownName,
 		methodName = context.getCalledMethodName() || anonymousName,
 		messages = toMessages(args);

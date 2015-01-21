@@ -1,8 +1,8 @@
 /**
  *	Dependencies
  */
-var forEach = require('fn/forEach'),
-	toArray = require('fn/toArray');
+var forEach = require('./forEach'),
+	toArray = require('./toArray');
 
 /**
  *	Extend properties to object

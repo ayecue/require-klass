@@ -15,11 +15,11 @@ module.exports = function (grunt) {
         concat: {
             dev: {
                 src: '<%= pkg.directories.config %>dev.js',
-                dest: '<%= pkg.directories.temp %>XClass/config.js'
+                dest: '<%= pkg.directories.temp %>klass/config.js'
             },
             build: {
                 src: '<%= pkg.directories.config %>build.js',
-                dest: '<%= pkg.directories.temp %>XClass/config.js'
+                dest: '<%= pkg.directories.temp %>klass/config.js'
             }
         },
 
@@ -49,18 +49,12 @@ module.exports = function (grunt) {
                 options: {
                     baseUrl: "amd",
                     name: "../tools/vendor/almond",
-                    out: "<%= pkg.directories.build %>require-xclass.js",
+                    out: "<%= pkg.directories.build %>require-klass.js",
                     wrap: {
                         startFile: "tools/wrap.start",
                         endFile: "tools/wrap.end"
                     },
-                    paths: {
-                        'cls': './XClass',
-                        'fn': './XClass/Functions',
-                        'prop': './XClass/Properties',
-                        'tpl': './XClass/Templates'
-                    },
-                    include: ["xclass"],
+                    include: ["klass"],
                     optimize: "none"
                 }
             }
@@ -85,15 +79,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-    grunt.registerTask('dev', [
-        'copy',
-        'concat:dev',
-        'amdwrap',
-        'browserify:test',
-        'requirejs:dev',
-        'uglify:build'
-    ]);
-
     grunt.registerTask('build', [
         'copy',
         'concat:build',
@@ -103,6 +88,5 @@ module.exports = function (grunt) {
         'uglify:build'
     ]);
 
-    grunt.registerTask('staging', ['dev']);
     grunt.registerTask('default', ['build']);
 };

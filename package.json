@@ -1,7 +1,7 @@
 {
-  "name": "require-xclass",
+  "name": "require-klass",
   "version": "0.0.0",
-  "description": "require-xclass ==============",
+  "description": "require-klass ==============",
   "main": "index.js",
   "directories": {
     "source": "src/",
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ayecue/require-xclass.git"
+    "url": "git://github.com/ayecue/require-klass.git"
   },
   "author": "",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/ayecue/require-xclass/issues"
+    "url": "https://github.com/ayecue/require-klass/issues"
   },
   "devDependencies": {
     "envify": "~1.2.1",
