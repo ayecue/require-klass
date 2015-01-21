@@ -11,7 +11,7 @@ var toArray = require('./Functions/toArray'),
  */
 module.exports = function(){
 	var args = toArray(arguments),
-		name = typeof args[0] == 'string' ? args.shift() : null,
+		name = typeof args[0] == 'string' ? args.shift() : id(),
 		values = args.shift(),
 		handle = compiler(name);
 	

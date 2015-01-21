@@ -4,6 +4,9 @@ klass.define('MyApp.Main',{
 	mixins : {
 		Base : 'MyApp.Base'
 	},
+	traits : [
+		'MyApp.Event'
+	],
 	constructor : function(){
 		var base = new MyApp.Base();
 
