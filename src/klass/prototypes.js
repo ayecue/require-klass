@@ -54,6 +54,9 @@ module.exports = function(name,handle){
 		getListener : function(){
 			return this.listener;
 		},
+		getMixins : function(){
+			return this.getClass().getMixins();
+		},
 		getCalledMethod : function(){
 			return this.getClass().getCalledMethod();
 		},
