@@ -1,42 +1,42 @@
-# require-xclass
+# require-klass
 
 Pseudo class system which helps you building big systems fast. Could be compared with the class system of ExtJS.
 
 
 ## Overview
 
-The global xclass got following methods:
+The global klass got following methods:
 
-* <a href="#xclassid">xclass.id()</a> - Generate class id and returns the string
-* <a href="#xclassforeach">xclass.forEach(object,callback,context)</a> - Used to loop though objects/arrays
-* <a href="#xclasstoarray">xclass.toArray(arrayLikeObject)</a> - Convert array like objects to an array
-* <a href="#xclassextend">xclass.extend(object1,object2,object3)</a> - Merge objects
-* <a href="#xclassprintf">xclass.printf(templateString,key,value)</a> - Used fill template strings
-* <a href="#xclasstypeof">xclass.typeOf(object)</a> - Gets type of object
-* <a href="#xclassoverride">xclass.override(StringOfClass,classObject)</a> - Override certain values of class
-* <a href="#xclassnamespace">xclass.namespace(StringOfClass)</a> - Create namespace for class
-* <a href="#xclassrequire">xclass.require(ArrayWithLibraries,CallbackAfterLoading)</a> - Load class
-* <a href="#xclassget">xclass.get(PathToClass)</a> - Trace for class
-* <a href="#xclassdefine">xclass.define(NameForClass,ClassConfig)</a> - Create class
+* <a href="#klassid">klass.id()</a> - Generate class id and returns the string
+* <a href="#klassforeach">klass.forEach(object,callback,context)</a> - Used to loop though objects/arrays
+* <a href="#klasstoarray">klass.toArray(arrayLikeObject)</a> - Convert array like objects to an array
+* <a href="#klassextend">klass.extend(object1,object2,object3)</a> - Merge objects
+* <a href="#klassprintf">klass.printf(templateString,key,value)</a> - Used fill template strings
+* <a href="#klasstypeof">klass.typeOf(object)</a> - Gets type of object
+* <a href="#klassoverride">klass.override(StringOfClass,classObject)</a> - Override certain values of class
+* <a href="#klassnamespace">klass.namespace(StringOfClass)</a> - Create namespace for class
+* <a href="#klassrequire">klass.require(ArrayWithLibraries,CallbackAfterLoading)</a> - Load class
+* <a href="#klassget">klass.get(PathToClass)</a> - Trace for class
+* <a href="#klassdefine">klass.define(NameForClass,ClassConfig)</a> - Create class
 
 
-## xclass.id
+## klass.id
 
 This is a pretty easy function it's just generating ids. You can use for example for class names.
 
 Example usage: 
 ```
-var name = xclass.id(); //returns something like class#rthrh435345Kesfs
+var name = klass.id(); //returns something like class#rthrh435345Kesfs
 ```
 
 
-## xclass.forEach
+## klass.forEach
 
 Basicly this a method to loop through objects. But it got one nice feature. You can use a context object which got two properties 'result' and 'skip'.
 
 Example usage: 
 ```
-var removedUnderscoreArray = xclass.forEach(['_w','_t','_m'],function(index,value){
+var removedUnderscoreArray = klass.forEach(['_w','_t','_m'],function(index,value){
 	this.result.push(value.replace('_',''));
 },[]);
 
@@ -44,21 +44,21 @@ console.log(removedUnderscoreArray.join(','));
 ```
 
 
-## xclass.toArray
+## klass.toArray
 
 Simple method to convert 'array-like-objects' to arrays.
 
 Example usage: 
 ```
 function getFirstArg(){
-	var args = xclass.toArray(arguments);
+	var args = klass.toArray(arguments);
 
 	return args.shift();	
 };
 ```
 
 
-## xclass.extend
+## klass.extend
 
 Simple extend method to merge multiple objects together.
 
@@ -75,7 +75,7 @@ objectFusion.bar;
 ```
 
 
-## xclass.printf
+## klass.printf
 
 Could be compared to the php function printf. Fill string templates with values. Also this method got some nice formating functions.
 
@@ -102,41 +102,41 @@ Following formating codes are possible:
 Example usage: 
 ```
 //simple single
-xclass.printf('%name% has a problem with WAYNE','name','Joe');
+klass.printf('%name% has a problem with WAYNE','name','Joe');
 
 //simple multiple
-xclass.printf('%name% has a problem with %troublemaker%',{
+klass.printf('%name% has a problem with %troublemaker%',{
 	name : 'Joe',
 	troublemaker : 'WAYNE'
 });
 
 //advanced multiple
-xclass.printf('%:capitalise,trim:name% has a problem with %:upper:troublemaker%',{
+klass.printf('%:capitalise,trim:name% has a problem with %:upper:troublemaker%',{
 	name : 'joe',
 	troublemaker : 'wayne'
 });
 ```
 
 
-## xclass.typeOf
+## klass.typeOf
 
 Get type of object.
 
 Example usage: 
 ```
-xclass.typeOf(0); //number
-xclass.typeOf([]); //array
-xclass.typeOf({}); //object
+klass.typeOf(0); //number
+klass.typeOf([]); //array
+klass.typeOf({}); //object
 ```
 
 
-## xclass.override
+## klass.override
 
 Override certain class. Just as you would define a new class but overriding an already existing class.
 
 Example usage: 
 ```
-xclass.override('w.smaller',{
+klass.override('w.smaller',{
 	statics : {
 		myFunc : function(){
 			return 2;
@@ -153,27 +153,27 @@ xclass.override('w.smaller',{
 ```
 
 
-## xclass.namespace
+## klass.namespace
 
 Create a namespace for your class.
 
 Example usage: 
 ```
-xclass.namespace('w.a.s');
+klass.namespace('w.a.s');
 
-xclass.w.a; //would be an empty object
+klass.w.a; //would be an empty object
 //so now you can do this
-xclass.w.a.s = 'test';
+klass.w.a.s = 'test';
 ```
 
 
-## xclass.require
+## klass.require
 
 With this method you define all needed classes to start your script.
 
 Example usage: 
 ```
-xclass.require([
+klass.require([
 	'w.test',
 	'w.smaller',
 	'w.run'
@@ -183,21 +183,21 @@ xclass.require([
 ```
 
 
-## xclass.get
+## klass.get
 
-With this method you get a class out of the xclass context.
+With this method you get a class out of the klass context.
 
 Example usage: 
 ```
-xclass.get('w.smaller'); //returns class (if available)
+klass.get('w.smaller'); //returns class (if available)
 ```
 
 
-## xclass.define
+## klass.define
 
-This method is there to create your classes. It's the basic xclass constructor.
+This method is there to create your classes. It's the basic klass constructor.
 
-Following properties are there to conifgurate your xclass:
+Following properties are there to conifgurate your klass:
 
 * extends - Library you want to extend
 * requires - Libraries you need in your class
@@ -205,7 +205,7 @@ Following properties are there to conifgurate your xclass:
 * traits - Modules which should get extended to your class
 * statics - Static properties which you want to extend to your base
 
-Following defauts statics are extended to your xclass:
+Following defauts statics are extended to your klass:
 
 * singleton - Define if your class is a singleton
 * debug - Define if the class is in debug mode
@@ -223,7 +223,7 @@ Following defauts statics are extended to your xclass:
 * logMessage(arguments,isError) - Print message in console in context of class (just working properly inside class functions)
 * applyTo(class) - Extend this class to another class
 
-Following defauts statics are extended to your xclass:
+Following defauts statics are extended to your klass:
 
 * isPrototypeObject - Define if this object is an prototype object
 * getDefaultValues() - Get default values which should be extended on every new created instance
@@ -242,7 +242,7 @@ Following defauts statics are extended to your xclass:
 
 Example usage: 
 ```
-var smaller = xclass.define('w.smaller',{
+var smaller = klass.define('w.smaller',{
 	extends : 'w.test',
 	test : 'woot',
 	lulu : {
