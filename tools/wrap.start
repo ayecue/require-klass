@@ -1,4 +1,0 @@
-(function (global, factory) {
-    global.klass = factory(global);
-}(this, function (global) {
-

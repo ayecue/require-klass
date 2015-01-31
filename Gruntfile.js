@@ -3,6 +3,16 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        klassmer: {
+            application: {
+                options: {
+                    name: 'klass',
+                    src: '<%= pkg.directories.temp %>klass.js',
+                    out: '<%= pkg.directories.build %>require-klass.js'
+                }
+            }
+        },
+
         copy: {
             main: {
                 expand: true,
@@ -10,6 +20,10 @@ module.exports = function (grunt) {
                 src: ['**/*.js'],
                 dest: '<%= pkg.directories.temp %>',
             }
+        },
+
+        clean: {
+            temp: ['<%= pkg.directories.temp %>']
         },
 
         concat: {
@@ -20,43 +34,6 @@ module.exports = function (grunt) {
             build: {
                 src: '<%= pkg.directories.config %>build.js',
                 dest: '<%= pkg.directories.temp %>klass/config.js'
-            }
-        },
-
-        amdwrap: {
-            src: {
-                expand: true,
-                cwd: '<%= pkg.directories.temp %>',
-                src: ['**/*.js'],
-                dest: '<%= pkg.directories.build %>'
-            }
-        },
-
-        browserify: {
-            test: {
-                files: {
-                    'test_bundle.js': ['test-built/**/*.js']
-                },
-                options: {
-                    transform: ['envify'],
-                    verbose: true
-                }
-            }
-        },
-
-        requirejs: {
-            dev: {
-                options: {
-                    baseUrl: "amd",
-                    name: "../tools/vendor/almond",
-                    out: "<%= pkg.directories.build %>require-klass.js",
-                    wrap: {
-                        startFile: "tools/wrap.start",
-                        endFile: "tools/wrap.end"
-                    },
-                    include: ["klass"],
-                    optimize: "none"
-                }
             }
         },
 
@@ -75,16 +52,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-amd-wrap');
-    grunt.loadNpmTasks('grunt-browserify');
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-klassmer');
 
     grunt.registerTask('build', [
         'copy',
         'concat:build',
-        'amdwrap',
-        'browserify:test',
-        'requirejs:dev',
+        'klassmer',
+        'clean',
         'uglify:build'
     ]);
 
