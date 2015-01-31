@@ -1,6 +1,6 @@
 {
   "name": "require-klass",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "require-klass ==============",
   "main": "index.js",
   "directories": {
@@ -30,6 +30,6 @@
     "grunt-contrib-uglify": "~0.7.0",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-shell": "~0.6.4",
-    "grunt-klassmer": "~0.1.2"
+    "grunt-klassmer": "~0.1.3"
   }
 }
