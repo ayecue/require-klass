@@ -2,7 +2,7 @@
   "name": "require-klass",
   "version": "1.0.1",
   "description": "require-klass ==============",
-  "main": "index.js",
+  "main": "src/klass.js",
   "directories": {
     "source": "src/",
     "config": "configs/",
@@ -29,7 +29,7 @@
     "grunt-contrib-concat": "~0.5.0",
     "grunt-contrib-copy": "~0.7.0",
     "grunt-contrib-uglify": "~0.7.0",
-    "grunt-klassmer": "~0.2.3",
+    "grunt-klassmer": "~0.3.0",
     "grunt-shell": "~0.6.4"
   }
 }
