@@ -2,6 +2,8 @@
 
 Pseudo class system which helps you building big systems fast. Could be compared with the class system of ExtJS.
 
+This module is using `klassmer`.
+
 
 ## Overview
 
