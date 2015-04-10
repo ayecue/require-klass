@@ -1,6 +1,6 @@
 {
   "name": "require-klass",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "browser version of node-klass",
   "main": "src/Core.js",
   "directories": {
@@ -29,7 +29,7 @@
     "grunt-contrib-concat": "~0.5.0",
     "grunt-contrib-copy": "~0.7.0",
     "grunt-contrib-uglify": "~0.7.0",
-    "grunt-klassmer": "~0.4.2",
+    "grunt-klassmer": "~0.4.3",
     "grunt-shell": "~0.6.4"
   }
 }
