@@ -6,8 +6,8 @@ module.exports = function (grunt) {
         klassmer: {
             application: {
                 options: {
-                    namespace: 'klass',
-                    src: '<%= pkg.directories.temp %>klass.js',
+                    namespace: 'Klass',
+                    src: '<%= pkg.directories.temp %>Core.js',
                     out: '<%= pkg.directories.build %>require-klass.js'
                 }
             }
